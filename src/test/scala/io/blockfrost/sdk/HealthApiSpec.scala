@@ -9,7 +9,7 @@ import org.scalatest.matchers.should.Matchers
 import scala.concurrent.Future
 
 class HealthApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
-  "healthStatus" should "return HealthStatus" in genericTestContext[TestContext] { ctx =>
+  "getHealthStatus" should "return HealthStatus" in genericTestContext[TestContext] { ctx =>
     ctx.healthApi
       .getHealthStatus
       .extract
@@ -19,7 +19,7 @@ class HealthApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport 
       })
   }
 
-  "backendTime" should "return BackendTime" in genericTestContext[TestContext] { ctx =>
+  "getBackendTime" should "return BackendTime" in genericTestContext[TestContext] { ctx =>
     import io.blockfrost.sdk.converter.FutureResponseConverter._
     ctx.healthApi
       .getBackendTime
