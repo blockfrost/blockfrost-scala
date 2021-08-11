@@ -10,7 +10,7 @@ import scala.concurrent.Future
 
 class HealthApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
   "getHealthStatus" should "return HealthStatus" in genericTestContext[TestContext] { ctx =>
-    ctx.healthApi
+    ctx.api
       .getHealthStatus
       .extract
       .map(body => {
@@ -21,7 +21,7 @@ class HealthApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport 
 
   "getBackendTime" should "return BackendTime" in genericTestContext[TestContext] { ctx =>
     import io.blockfrost.sdk.converter.FutureResponseConverter._
-    ctx.healthApi
+    ctx.api
       .getBackendTime
       .extract
       .map(body => {
@@ -31,7 +31,7 @@ class HealthApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport 
   }
 
   trait TestContext {
-    val healthApi: HealthApiImpl[Future, Any] = new HealthApiImpl[Future, Any] with TestApiClient
+    val api: HealthApiImpl[Future, Any] = new HealthApiImpl[Future, Any] with TestApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}

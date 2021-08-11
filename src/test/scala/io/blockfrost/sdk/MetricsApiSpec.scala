@@ -8,9 +8,8 @@ import org.scalatest.matchers.should.Matchers
 import scala.concurrent.Future
 
 class MetricsApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
-
   "getUsageMetrics" should "return array of Metric" in genericTestContext[TestContext] { ctx =>
-    ctx.metricsApi
+    ctx.api
       .getUsageMetrics
       .extract
       .map(body => {
@@ -20,7 +19,7 @@ class MetricsApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport
   }
 
   "getEndpointUsageMetrics" should "return array of EndpointMetric" in genericTestContext[TestContext] { ctx =>
-    ctx.metricsApi
+    ctx.api
       .getEndpointUsageMetrics
       .extract
       .map(body => {
@@ -30,7 +29,7 @@ class MetricsApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport
   }
 
   trait TestContext {
-    val metricsApi: MetricsApiImpl[Future, Any] = new MetricsApiImpl[Future, Any] with TestApiClient
+    val api: MetricsApiImpl[Future, Any] = new MetricsApiImpl[Future, Any] with TestApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}

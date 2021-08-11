@@ -9,8 +9,8 @@ trait MetricsApiImpl[F[_], P] extends MetricsApi[F, P] {
   this: ApiClient[F, P] =>
 
   def getUsageMetrics(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[Metric]]] =
-    get(uri"$host/metrics", apiKey)
+    get(uri"$host/metrics")
 
   def getEndpointUsageMetrics(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[EndpointMetric]]] =
-    get(uri"$host/metrics/endpoints", apiKey)
+    get(uri"$host/metrics/endpoints")
 }
