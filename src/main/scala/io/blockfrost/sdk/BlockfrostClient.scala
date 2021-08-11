@@ -14,16 +14,15 @@ class BlockfrostClient[F[_], P](config: BlockfrostClientConfig[F, P]) extends He
 }
 
 object BlockfrostClient {
-  def apply[F[_], P](sttpBackend: SttpBackend[F, P], network: Network): BlockfrostClient[F, P] = {
-    val config = BlockfrostClientConfig(sttpBackend, sys.env.getOrElse("BLOCKFROST_API_KEY", throw new RuntimeException("Api key not found in environment variables")), network.url)
-    new BlockfrostClient(config)
-  }
+  def apply[F[_], P](sttpBackend: SttpBackend[F, P], network: Network): BlockfrostClient[F, P] =
+    new BlockfrostClient(BlockfrostClientConfig(sttpBackend, getApiKeyFromEnvVariables, network.url))
 
-  def apply[F[_], P](sttpBackend: SttpBackend[F, P]): BlockfrostClient[F, P] = {
-    val apiKey = sys.env.getOrElse("BLOCKFROST_API_KEY", throw new RuntimeException("Api key not found in environment variables"))
-    val host = sys.env.getOrElse("BLOCKFROST_HOST", throw new RuntimeException("Api key not found in environment variables"))
-    new BlockfrostClient(BlockfrostClientConfig(sttpBackend, apiKey, host))
-  }
+  def apply[F[_], P](sttpBackend: SttpBackend[F, P]): BlockfrostClient[F, P] =
+    new BlockfrostClient(BlockfrostClientConfig(sttpBackend, getApiKeyFromEnvVariables, getHostFromEnvVariables))
+
+  private def getApiKeyFromEnvVariables: String = sys.env.getOrElse("BLOCKFROST_API_KEY", throw new RuntimeException("Api key not found in environment variables"))
+
+  private def getHostFromEnvVariables: String = sys.env.getOrElse("BLOCKFROST_HOST", throw new RuntimeException("Blockfrost host not found in environment variables"))
 
   case class BlockfrostClientConfig[F[_], P](sttpBackend: SttpBackend[F, P], apiKey: String, host: String)
 }
