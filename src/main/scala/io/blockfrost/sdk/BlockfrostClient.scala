@@ -1,5 +1,6 @@
 package io.blockfrost.sdk
 
+import io.blockfrost.sdk.ApiClient.ApiKey
 import io.blockfrost.sdk.BlockfrostClient.BlockfrostClientConfig
 import io.blockfrost.sdk.api.HealthApiImpl
 import io.blockfrost.sdk.common.Network
@@ -7,10 +8,8 @@ import sttp.client3.SttpBackend
 
 class BlockfrostClient[F[_], P](config: BlockfrostClientConfig[F, P]) extends HealthApiImpl[F, P] with ApiClient[F, P] {
   override implicit val sttpBackend: SttpBackend[F, P] = config.sttpBackend
-
-  override def apiKey: String = config.apiKey
-
-  override def host: String = config.host
+  override implicit val apiKey: ApiKey = config.apiKey
+  override val host: String = config.host
 }
 
 object BlockfrostClient {
@@ -24,5 +23,5 @@ object BlockfrostClient {
 
   private def getHostFromEnvVariables: String = sys.env.getOrElse("BLOCKFROST_HOST", throw new RuntimeException("Blockfrost host not found in environment variables"))
 
-  case class BlockfrostClientConfig[F[_], P](sttpBackend: SttpBackend[F, P], apiKey: String, host: String)
+  case class BlockfrostClientConfig[F[_], P](sttpBackend: SttpBackend[F, P], apiKey: ApiKey, host: String)
 }

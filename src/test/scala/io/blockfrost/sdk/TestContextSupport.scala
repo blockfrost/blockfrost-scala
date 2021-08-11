@@ -11,15 +11,14 @@ import scala.concurrent.Future
 trait TestContextSupport {
   implicit val formats: Formats = io.blockfrost.sdk.common.Serialization.formats
   implicit val serialization: org.json4s.Serialization = org.json4s.jackson.Serialization
-  lazy val asyncClient: SttpBackend[Future, Any] = AsyncHttpClientFutureBackend()
 
   def genericTestContext[A](test: A => Future[Assertion])(implicit context: A): Future[Assertion] = test(context)
 
   trait TestApiClient extends ApiClient[Future, Any] {
-    override implicit val sttpBackend: SttpBackend[Future, Any] = asyncClient
+    override implicit val sttpBackend: SttpBackend[Future, Any] = AsyncHttpClientFutureBackend()
 
-    override def apiKey: String = sys.env.getOrElse("BLOCKFROST_API_KEY", throw new RuntimeException("Api key not found in environment variables"))
+    override implicit val apiKey: String = sys.env.getOrElse("BLOCKFROST_API_KEY", throw new RuntimeException("Api key not found in environment variables"))
 
-    override def host: String = Testnet.url
+    override val host: String = Testnet.url
   }
 }
