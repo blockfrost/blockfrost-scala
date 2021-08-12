@@ -17,7 +17,7 @@ trait TestContextSupport {
   trait TestApiClient extends ApiClient[Future, Any] {
     override implicit val sttpBackend: SttpBackend[Future, Any] = AsyncHttpClientFutureBackend()
 
-    override implicit val apiKey: String = sys.env.getOrElse("BLOCKFROST_API_KEY", "Ne3uGRoN1t8t0ApCIAf6XEFnb43ljKOE")
+    override implicit val apiKey: String = sys.env.getOrElse("BLOCKFROST_API_KEY", throw new RuntimeException("Api key not found in environment variables"))
 
     override val host: String = Testnet.url
   }

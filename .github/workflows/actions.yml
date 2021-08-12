@@ -3,6 +3,8 @@ on: [ push ]
 jobs:
   sdk-integration-tests:
     runs-on: ubuntu-latest
+    env:
+      BLOCKFROST_API_KEY: 'Ne3uGRoN1t8t0ApCIAf6XEFnb43ljKOE'
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
