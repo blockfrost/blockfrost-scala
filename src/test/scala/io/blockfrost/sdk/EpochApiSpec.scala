@@ -1,7 +1,7 @@
 package io.blockfrost.sdk
 
 import io.blockfrost.sdk.api.EpochsApi.{Epoch, EpochProtocolParameters}
-import io.blockfrost.sdk.api.EpochsApiImpl
+import io.blockfrost.sdk.api.{EpochsApi, EpochsApiImpl}
 import io.blockfrost.sdk.common.{SortedPageRequest, UnsortedPageRequest}
 import io.blockfrost.sdk.converter.FutureResponseConverter.FutureResponseOps
 import org.scalatest.flatspec.AsyncFlatSpec
@@ -133,7 +133,7 @@ class EpochApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
   }
 
   trait TestContext {
-    val api = new EpochsApiImpl[Future, Any] with TestApiClient
+    val api: EpochsApi[Future, Any] = new EpochsApiImpl[Future, Any] with TestApiClient
     val firstEpoch: Epoch = Epoch(1, 1564431616, 1564863616, 1564431616, 1564863596, 21601, 305, "152336265877919", "54105620", null)
   }
 

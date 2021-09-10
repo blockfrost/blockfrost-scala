@@ -1,7 +1,7 @@
 package io.blockfrost.sdk
 
 import io.blockfrost.sdk.api.NetworkApi.{NetworkInfo, Stake, Supply}
-import io.blockfrost.sdk.api.NetworkApiImpl
+import io.blockfrost.sdk.api.{NetworkApi, NetworkApiImpl}
 import io.blockfrost.sdk.converter.FutureResponseConverter.FutureResponseOps
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -21,7 +21,7 @@ class NetworkApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport
   }
 
   trait TestContext {
-    val api = new NetworkApiImpl[Future, Any] with TestApiClient
+    val api: NetworkApi[Future, Any] = new NetworkApiImpl[Future, Any] with TestApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}

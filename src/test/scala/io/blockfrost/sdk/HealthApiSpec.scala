@@ -1,7 +1,7 @@
 package io.blockfrost.sdk
 
 import io.blockfrost.sdk.api.HealthApi.HealthStatus
-import io.blockfrost.sdk.api.HealthApiImpl
+import io.blockfrost.sdk.api.{HealthApi, HealthApiImpl}
 import io.blockfrost.sdk.converter.FutureResponseConverter._
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -31,7 +31,7 @@ class HealthApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport 
   }
 
   trait TestContext {
-    val api: HealthApiImpl[Future, Any] = new HealthApiImpl[Future, Any] with TestApiClient
+    val api: HealthApi[Future, Any] = new HealthApiImpl[Future, Any] with TestApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}

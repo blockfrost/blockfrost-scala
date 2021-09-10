@@ -4,7 +4,7 @@ import io.blockfrost.sdk.ApiClient.ApiKey
 import org.json4s.{Formats, Serialization}
 import sttp.client3.json4s.asJson
 import sttp.client3.{Response, ResponseException, SttpBackend, basicRequest}
-import sttp.model.Uri
+import sttp.model.{MediaType, Uri}
 import sttp.model.Uri.QuerySegment.KeyValue
 
 trait SttpSupport {
@@ -17,6 +17,16 @@ trait SttpSupport {
       case UnsortedPageRequest(count, page) => uri.addQuerySegment(KeyValue("page", page.toString)).addQuerySegment(KeyValue("count", count.toString))
     }.getOrElse(uri)
     basicRequest.get(uriWithQueryParams)
+      .header("project_id", key)
+      .response(asJson[R])
+      .send(b)
+  }
+
+  def post[F[_], P, R: Manifest](uri: Uri, body: Array[Byte], contentType: String)
+                                (implicit key: ApiKey, f: Formats, s: Serialization, b: SttpBackend[F, P]): F[ApiResponse[R]] = {
+    basicRequest.post(uri)
+      .contentType(MediaType.unsafeParse(contentType))
+      .body(body)
       .header("project_id", key)
       .response(asJson[R])
       .send(b)

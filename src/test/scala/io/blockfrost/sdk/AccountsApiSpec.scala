@@ -1,7 +1,7 @@
 package io.blockfrost.sdk
 
 import io.blockfrost.sdk.api.AccountsApi.{AccountAddress, Address, Asset}
-import io.blockfrost.sdk.api.AccountsApiImpl
+import io.blockfrost.sdk.api.{AccountsApi, AccountsApiImpl}
 import io.blockfrost.sdk.common.SortedPageRequest
 import io.blockfrost.sdk.converter.FutureResponseConverter.FutureResponseOps
 import org.scalatest.flatspec.AsyncFlatSpec
@@ -32,7 +32,7 @@ class AccountsApiSpec extends AsyncFlatSpec with Matchers with TestContextSuppor
 
   "getAccountHistory" should "return sequence of RewardHistory" in genericTestContext[TestContext] { ctx =>
     ctx.api
-      .getAccountRewardHistory("stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl", SortedPageRequest(1))
+      .getAccountHistory("stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl", SortedPageRequest(1))
       .extract
       .map(body => {
         body shouldBe List()
@@ -52,7 +52,7 @@ class AccountsApiSpec extends AsyncFlatSpec with Matchers with TestContextSuppor
 
   "getAccountRegistrationHistory" should "return sequence of RegistrationHistory" in genericTestContext[TestContext] { ctx =>
     ctx.api
-      .getAccountDelegationHistory("stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl", SortedPageRequest(1))
+      .getAccountRegistrationHistory("stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl", SortedPageRequest(1))
       .extract
       .map(body => {
         body shouldBe List()
@@ -100,7 +100,7 @@ class AccountsApiSpec extends AsyncFlatSpec with Matchers with TestContextSuppor
   }
 
   trait TestContext {
-    val api: AccountsApiImpl[Future, Any] = new AccountsApiImpl[Future, Any] with TestApiClient
+    val api: AccountsApi[Future, Any] = new AccountsApiImpl[Future, Any] with TestApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}
