@@ -1,7 +1,7 @@
 package io.blockfrost.sdk
 
 import io.blockfrost.sdk.api.AssetsApi._
-import io.blockfrost.sdk.api.AssetsApiImpl
+import io.blockfrost.sdk.api.{AssetsApi, AssetsApiImpl}
 import io.blockfrost.sdk.common.SortedPageRequest
 import io.blockfrost.sdk.converter.FutureResponseConverter.FutureResponseOps
 import org.scalatest.flatspec.AsyncFlatSpec
@@ -71,7 +71,7 @@ class AssetsApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport 
   }
 
   trait TestContext {
-    val api: AssetsApiImpl[Future, Any] = new AssetsApiImpl[Future, Any] with TestApiClient
+    val api: AssetsApi[Future, Any] = new AssetsApiImpl[Future, Any] with TestApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}

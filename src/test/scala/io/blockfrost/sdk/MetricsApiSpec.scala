@@ -1,6 +1,6 @@
 package io.blockfrost.sdk
 
-import io.blockfrost.sdk.api.MetricsApiImpl
+import io.blockfrost.sdk.api.{MetricsApi, MetricsApiImpl}
 import io.blockfrost.sdk.converter.FutureResponseConverter.FutureResponseOps
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -29,7 +29,7 @@ class MetricsApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport
   }
 
   trait TestContext {
-    val api: MetricsApiImpl[Future, Any] = new MetricsApiImpl[Future, Any] with TestApiClient
+    val api: MetricsApi[Future, Any] = new MetricsApiImpl[Future, Any] with TestApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}

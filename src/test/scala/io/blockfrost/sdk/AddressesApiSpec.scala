@@ -1,8 +1,8 @@
 package io.blockfrost.sdk
 
 import io.blockfrost.sdk.api.AddressesApi._
-import io.blockfrost.sdk.api.AddressesApiImpl
-import io.blockfrost.sdk.converter.FutureResponseConverter._
+import io.blockfrost.sdk.api.{AddressesApi, AddressesApiImpl}
+import io.blockfrost.sdk.converter.FutureResponseConverter.FutureResponseOps
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -78,7 +78,7 @@ class AddressesApiSpec extends AsyncFlatSpec with Matchers with TestContextSuppo
   }
 
   trait TestContext {
-    val api = new AddressesApiImpl[Future, Any] with TestApiClient
+    val api: AddressesApi[Future, Any] = new AddressesApiImpl[Future, Any] with TestApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}

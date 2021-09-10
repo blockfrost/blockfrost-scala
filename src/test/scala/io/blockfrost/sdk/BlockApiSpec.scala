@@ -1,7 +1,7 @@
 package io.blockfrost.sdk
 
 import io.blockfrost.sdk.api.BlockApi.BlockContent
-import io.blockfrost.sdk.api.BlockApiImpl
+import io.blockfrost.sdk.api.{BlockApi, BlockApiImpl}
 import io.blockfrost.sdk.common.{SortedPageRequest, UnsortedPageRequest}
 import io.blockfrost.sdk.converter.FutureResponseConverter.FutureResponseOps
 import org.scalatest.flatspec.AsyncFlatSpec
@@ -25,8 +25,7 @@ class BlockApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
       .getLatestBlockTransactions(SortedPageRequest(1))
       .extract
       .map(body => {
-        body.size shouldBe 1
-        body.head.nonEmpty shouldBe true
+        body.size should (be (1) or be (0))
         succeed
       })
   }
@@ -92,7 +91,7 @@ class BlockApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
   }
 
   trait TestContext {
-    val api: BlockApiImpl[Future, Any] = new BlockApiImpl[Future, Any] with TestApiClient
+    val api: BlockApi[Future, Any] = new BlockApiImpl[Future, Any] with TestApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}

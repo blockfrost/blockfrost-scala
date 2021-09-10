@@ -12,5 +12,6 @@ libraryDependencies ++= Seq(
 
   "org.scalatest" %% "scalatest" % "3.2.2" % Test,
   "com.softwaremill.sttp.client3" %% "async-http-client-backend-future" % sttpVersion % Test,
-  "com.softwaremill.sttp.client3" %% "async-http-client-backend" % sttpVersion % Test
+  "com.softwaremill.sttp.client3" %% "async-http-client-backend" % sttpVersion % Test,
+  "com.avsystem.commons" %% "commons-core" % "2.2.6" % Test
 )
