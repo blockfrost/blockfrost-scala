@@ -21,7 +21,7 @@ class LedgerApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport 
   }
 
   trait TestContext {
-    val api: LedgerApi[Future, Any] = new LedgerApiImpl[Future, Any] with TestApiClient
+    val api: LedgerApi[Future, Any] = new LedgerApiImpl[Future, Any] with TestMainnetApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}

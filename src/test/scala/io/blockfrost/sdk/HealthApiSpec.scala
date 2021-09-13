@@ -31,7 +31,7 @@ class HealthApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport 
   }
 
   trait TestContext {
-    val api: HealthApi[Future, Any] = new HealthApiImpl[Future, Any] with TestApiClient
+    val api: HealthApi[Future, Any] = new HealthApiImpl[Future, Any] with TestMainnetApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}
