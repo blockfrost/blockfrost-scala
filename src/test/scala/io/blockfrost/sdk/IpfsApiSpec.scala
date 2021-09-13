@@ -18,7 +18,7 @@ class IpfsApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
       .addObject(file)
       .extract
       .flatMap(body => {
-        body should matchPattern { case IpfsObject("ipfs_test.file", "QmScJZkf8S8ZgEHpAmCtKCudxuBFeWQV58nzs4W3zFAT2N", "19") => }
+        body should matchPattern { case IpfsObject("ipfs_test.file", _, "19") => }
         ctx.api.removePinnedObject(body.ipfs_hash).extract
       }).map(_ => succeed)
   }
@@ -31,7 +31,7 @@ class IpfsApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
       ipfsFileData <- ctx.api.getObject(ipfsObject.ipfs_hash)
       _ <- ctx.api.removePinnedObject(ipfsObject.ipfs_hash).extract
     } yield {
-      ipfsFileData.body should matchPattern { case Right(Array(116, 101, 115, 116, 32, 100, 97, 116, 97, 13, 10)) => }
+      ipfsFileData.body.right.get.length shouldBe 11
       succeed
     }
   }
