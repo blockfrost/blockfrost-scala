@@ -25,7 +25,7 @@ trait TestContextSupport {
   trait TestIpfsApiClient extends ApiClient[Future, Any] {
     override implicit val sttpBackend: SttpBackend[Future, Any] = AsyncHttpClientFutureBackend()
 
-    override implicit val apiKey: String = sys.env.getOrElse("BLOCKFROST_IPFS_API_KEY", "CZT5fQbOfOyaCKDaUU9dfKY8Kip4yt1J")
+    override implicit val apiKey: String = sys.env.getOrElse("BLOCKFROST_IPFS_API_KEY", throw new RuntimeException("Api key not found in environment variables"))
 
     override val host: String = IPFS.url
   }
