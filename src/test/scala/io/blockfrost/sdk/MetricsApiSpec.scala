@@ -29,7 +29,7 @@ class MetricsApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport
   }
 
   trait TestContext {
-    val api: MetricsApi[Future, Any] = new MetricsApiImpl[Future, Any] with TestMainnetApiClient
+    val api: MetricsApi[Future, Any] = new MetricsApiImpl[Future, Any] with TestnetApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}

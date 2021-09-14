@@ -43,7 +43,7 @@ class MetadataApiSpec extends AsyncFlatSpec with Matchers with TestContextSuppor
   }
 
   trait TestContext {
-    val api: MetadataApi[Future, Any] = new MetadataApiImpl[Future, Any] with TestMainnetApiClient
+    val api: MetadataApi[Future, Any] = new MetadataApiImpl[Future, Any] with TestnetApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}
