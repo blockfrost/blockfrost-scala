@@ -118,7 +118,7 @@ class PoolsApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
   }
 
   trait TestContext {
-    val api: PoolsApi[Future, Any] = new PoolsApiImpl[Future, Any] with TestApiClient
+    val api: PoolsApi[Future, Any] = new PoolsApiImpl[Future, Any] with TestMainnetApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}
