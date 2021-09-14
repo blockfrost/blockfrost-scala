@@ -71,7 +71,7 @@ class AssetsApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport 
   }
 
   trait TestContext {
-    val api: AssetsApi[Future, Any] = new AssetsApiImpl[Future, Any] with TestMainnetApiClient
+    val api: AssetsApi[Future, Any] = new AssetsApiImpl[Future, Any] with TestnetApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}
