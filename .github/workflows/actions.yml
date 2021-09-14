@@ -5,6 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BLOCKFROST_API_KEY: 'Ne3uGRoN1t8t0ApCIAf6XEFnb43ljKOE'
+      BLOCKFROST_IPFS_API_KEY: 'CZT5fQbOfOyaCKDaUU9dfKY8Kip4yt1J'
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11

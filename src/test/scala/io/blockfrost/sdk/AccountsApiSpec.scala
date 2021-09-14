@@ -100,7 +100,7 @@ class AccountsApiSpec extends AsyncFlatSpec with Matchers with TestContextSuppor
   }
 
   trait TestContext {
-    val api: AccountsApi[Future, Any] = new AccountsApiImpl[Future, Any] with TestApiClient
+    val api: AccountsApi[Future, Any] = new AccountsApiImpl[Future, Any] with TestMainnetApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}
