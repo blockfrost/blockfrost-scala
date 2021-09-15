@@ -48,7 +48,7 @@ class NutlinkApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport
       .extract
       .map(body => {
         body.nonEmpty shouldBe true
-        body.foreach(ticker => ticker should matchPattern { case TickerRecord(None, _, _, _, _) => })
+        body.foreach(ticker => ticker should matchPattern { case TickerRecord(_, _, _, _, _) => })
         succeed
       })
   }
