@@ -2,70 +2,70 @@ package io.blockfrost.sdk.api
 
 import io.blockfrost.sdk.ApiClient
 import io.blockfrost.sdk.api.TransactionsApi._
-import io.blockfrost.sdk.common.SttpSupport
+import io.blockfrost.sdk.common.{Config, SttpSupport}
 import org.json4s.{Formats, Serialization}
 import sttp.client3.UriContext
 
 trait TransactionsApi[F[_], P] extends SttpSupport {
   this: ApiClient[F, P] =>
 
-  def getSpecificTransaction(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Transaction]]
+  def getSpecificTransaction(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Transaction]]
 
-  def getTransactionUtxos(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[TransactionUtxos]]
+  def getTransactionUtxos(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[TransactionUtxos]]
 
-  def getTransactionStakeAddressCertificates(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[AddressCertificate]]]
+  def getTransactionStakeAddressCertificates(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[AddressCertificate]]]
 
-  def getTransactionDelegationCertificates(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[DelegationCertificate]]]
+  def getTransactionDelegationCertificates(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[DelegationCertificate]]]
 
-  def getTransactionWithdrawal(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[Withdrawal]]]
+  def getTransactionWithdrawal(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[Withdrawal]]]
 
-  def getTransactionMirs(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[TransactionMir]]]
+  def getTransactionMirs(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[TransactionMir]]]
 
-  def getTransactionStakePoolRegistrationAndUpdateCertificates(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[StakePoolCertificate]]]
+  def getTransactionStakePoolRegistrationAndUpdateCertificates(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[StakePoolCertificate]]]
 
-  def getTransactionStakePoolRetirementCertificates(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[RetirementCertificate]]]
+  def getTransactionStakePoolRetirementCertificates(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[RetirementCertificate]]]
 
-  def getTransactionMetadata(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[TransactionMetadata]]]
+  def getTransactionMetadata(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[TransactionMetadata]]]
 
-  def getTransactionMetadataCbor(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[TransactionMetadataCbor]]]
+  def getTransactionMetadataCbor(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[TransactionMetadataCbor]]]
 
-  def submitTransaction(serializedTransaction: Array[Byte])(implicit formats: Formats, serialization: Serialization): F[ApiResponse[String]]
+  def submitTransaction(serializedTransaction: Array[Byte])(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[String]]
 }
 
 trait TransactionsApiImpl[F[_], P] extends TransactionsApi[F, P] {
   this: ApiClient[F, P] =>
 
-  def getSpecificTransaction(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Transaction]] =
+  def getSpecificTransaction(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Transaction]] =
     get(uri"$host/txs/$hash")
 
-  override def getTransactionUtxos(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[TransactionUtxos]] =
+  override def getTransactionUtxos(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[TransactionUtxos]] =
     get(uri"$host/txs/$hash/utxos")
 
-  override def getTransactionStakeAddressCertificates(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[AddressCertificate]]] =
+  override def getTransactionStakeAddressCertificates(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[AddressCertificate]]] =
     get(uri"$host/txs/$hash/stakes")
 
-  override def getTransactionDelegationCertificates(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[DelegationCertificate]]] =
+  override def getTransactionDelegationCertificates(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[DelegationCertificate]]] =
     get(uri"$host/txs/$hash/delegations")
 
-  override def getTransactionWithdrawal(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[Withdrawal]]] =
+  override def getTransactionWithdrawal(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[Withdrawal]]] =
     get(uri"$host/txs/$hash/withdrawals")
 
-  override def getTransactionMirs(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[TransactionMir]]] =
+  override def getTransactionMirs(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[TransactionMir]]] =
     get(uri"$host/txs/$hash/mirs")
 
-  override def getTransactionStakePoolRegistrationAndUpdateCertificates(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[StakePoolCertificate]]] =
+  override def getTransactionStakePoolRegistrationAndUpdateCertificates(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[StakePoolCertificate]]] =
     get(uri"$host/txs/$hash/pool_updates")
 
-  override def getTransactionStakePoolRetirementCertificates(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[RetirementCertificate]]] =
+  override def getTransactionStakePoolRetirementCertificates(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[RetirementCertificate]]] =
     get(uri"$host/txs/$hash/pool_retires")
 
-  override def getTransactionMetadata(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[TransactionMetadata]]] =
+  override def getTransactionMetadata(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[TransactionMetadata]]] =
     get(uri"$host/txs/$hash/metadata")
 
-  override def getTransactionMetadataCbor(hash: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[TransactionMetadataCbor]]] =
+  override def getTransactionMetadataCbor(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[TransactionMetadataCbor]]] =
     get(uri"$host/txs/$hash/metadata/cbor")
 
-  override def submitTransaction(serializedTransaction: Array[Byte])(implicit formats: Formats, serialization: Serialization): F[ApiResponse[String]] =
+  override def submitTransaction(serializedTransaction: Array[Byte])(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[String]] =
     post(uri"$host/tx/submit", serializedTransaction, "application/cbor")
 }
 
