@@ -78,7 +78,7 @@ class AddressesApiSpec extends AsyncFlatSpec with Matchers with TestContextSuppo
   }
 
   trait TestContext {
-    val api: AddressesApi[Future, Any] = new AddressesApiImpl[Future, Any] with TestMainnetApiClient
+    val api: AddressesApi[Future, Any] = new AddressesApiImpl[Future, Any] with TestnetApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}

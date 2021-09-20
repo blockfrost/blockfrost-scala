@@ -21,7 +21,7 @@ class NetworkApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport
   }
 
   trait TestContext {
-    val api: NetworkApi[Future, Any] = new NetworkApiImpl[Future, Any] with TestMainnetApiClient
+    val api: NetworkApi[Future, Any] = new NetworkApiImpl[Future, Any] with TestnetApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}
