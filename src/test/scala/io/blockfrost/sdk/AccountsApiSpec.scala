@@ -3,7 +3,7 @@ package io.blockfrost.sdk
 import io.blockfrost.sdk.api.AccountsApi.{AccountAddress, Address, Asset}
 import io.blockfrost.sdk.api.{AccountsApi, AccountsApiImpl}
 import io.blockfrost.sdk.common.SortedPageRequest
-import io.blockfrost.sdk.converter.FutureResponseConverter.FutureResponseOps
+import io.blockfrost.sdk.converter.FutureResponseConverter.{ApiError, ApiException, FutureResponseOps}
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -18,6 +18,18 @@ class AccountsApiSpec extends AsyncFlatSpec with Matchers with TestContextSuppor
         body should matchPattern { case AccountAddress("stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl", false, 0, _, "0", "0", "0", "0", "0", null) => }
         succeed
       })
+  }
+
+  "getSpecificCardanoAddress with invalid address" should "return error" in genericTestContext[TestContext] { ctx =>
+    ctx.api
+      .getSpecificCardanoAddress("1")
+      .extract
+      .map(_ => fail())
+      .recoverWith {
+        case ApiException(error) =>
+          error shouldBe ApiError(400, "Bad Request", "Invalid or malformed stake address format.")
+          succeed
+      }
   }
 
   "getAccountRewardHistory" should "return sequence of RewardHistory" in genericTestContext[TestContext] { ctx =>
