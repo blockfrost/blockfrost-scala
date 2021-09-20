@@ -3,6 +3,7 @@ package io.blockfrost.sdk.api
 import io.blockfrost.sdk.ApiClient
 import io.blockfrost.sdk.api.TransactionsApi._
 import io.blockfrost.sdk.common.{Config, SttpSupport}
+import org.json4s.JsonAST.JValue
 import org.json4s.{Formats, Serialization}
 import sttp.client3.UriContext
 
@@ -80,8 +81,8 @@ object TransactionsApi {
                          fees: String,
                          deposit: String,
                          size: Int,
-                         invalid_before: String,
-                         invalid_hereafter: String,
+                         invalid_before: Option[String],
+                         invalid_hereafter: Option[String],
                          utxo_count: Int,
                          withdrawal_count: Int,
                          mir_cert_count: Int,
@@ -107,10 +108,10 @@ object TransactionsApi {
                       name: String,
                       description: String,
                       homepage: String)
-  case class Relays(ipv4: String,
-                    ipv6: String,
-                    dns: String,
-                    dns_srv: String,
+  case class Relays(ipv4: Option[String],
+                    ipv6: Option[String],
+                    dns: Option[String],
+                    dns_srv: Option[String],
                     port: Double)
   case class StakePoolCertificate(cert_index: Double,
                                   pool_id: String,
@@ -120,11 +121,10 @@ object TransactionsApi {
                                   fixed_cost: String,
                                   reward_account: String,
                                   owners: List[String],
-                                  metadata: Metadata,
+                                  metadata: Option[Metadata],
                                   relays: List[Relays],
                                   active_epoch: Double)
   case class RetirementCertificate(cert_index: Double, pool_id: String, retiring_epoch: Int)
-  case class JsonMetadata(metadata: String, hash: String)
-  case class TransactionMetadata(label: String, json_metadata: JsonMetadata)
-  case class TransactionMetadataCbor(label: String, cbor_metadata: String)
+  case class TransactionMetadata(label: String, json_metadata: JValue)
+  case class TransactionMetadataCbor(label: String, cbor_metadata: Option[String])
 }

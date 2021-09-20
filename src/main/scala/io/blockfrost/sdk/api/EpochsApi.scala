@@ -74,7 +74,7 @@ object EpochsApi {
                    tx_count: Int,
                    output: String,
                    fees: String,
-                   active_stake: String)
+                   active_stake: Option[String])
   case class EpochProtocolParameters(epoch: Int,
                                      min_fee_a: Int,
                                      min_fee_b: Int,
@@ -89,12 +89,22 @@ object EpochsApi {
                                      rho: Double,
                                      tau: Double,
                                      decentralisation_param: Double,
-                                     extra_entropy: String,
+                                     extra_entropy: Option[String],
                                      protocol_major_ver: Int,
                                      protocol_minor_ver: Int,
                                      min_utxo: String,
                                      min_pool_cost: String,
-                                     nonce: String)
+                                     nonce: String,
+                                     price_mem: Option[Double],
+                                     price_step: Option[Double],
+                                     max_tx_ex_mem: Option[String],
+                                     max_tx_ex_steps: Option[String],
+                                     max_block_ex_mem: Option[String],
+                                     max_block_ex_steps: Option[String],
+                                     max_val_size: Option[String],
+                                     collateral_percent: Option[Double],
+                                     max_collateral_inputs: Option[Double],
+                                     coins_per_utxo_word: Option[String])
   case class StakeDistribution(stake_address: String, pool_id: String, amount: String)
   case class PoolStakeDistribution(stake_address: String, amount: String)
 }

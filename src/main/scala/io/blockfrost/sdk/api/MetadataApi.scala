@@ -31,7 +31,7 @@ trait MetadataApiImpl[F[_], P] extends MetadataApi[F, P] {
 }
 
 object MetadataApi {
-  case class MetadataLabel(label: String, cip10: String, count: String)
-  case class MetadataContentJson(tx_hash: String, json_metadata: JValue)
-  case class MetadataContentCbor(tx_hash: String, cbor_metadata: String)
+  case class MetadataLabel(label: String, cip10: Option[String], count: String)
+  case class MetadataContentJson(tx_hash: String, json_metadata: Option[JValue])
+  case class MetadataContentCbor(tx_hash: String, cbor_metadata: Option[String])
 }

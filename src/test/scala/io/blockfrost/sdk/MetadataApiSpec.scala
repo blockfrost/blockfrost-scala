@@ -1,5 +1,6 @@
 package io.blockfrost.sdk
 
+import io.blockfrost.sdk.TestContextSupport.RichString
 import io.blockfrost.sdk.api.MetadataApi.{MetadataContentCbor, MetadataContentJson, MetadataLabel}
 import io.blockfrost.sdk.api.{MetadataApi, MetadataApiImpl}
 import io.blockfrost.sdk.common.SortedPageRequest
@@ -17,7 +18,7 @@ class MetadataApiSpec extends AsyncFlatSpec with Matchers with TestContextSuppor
       .getTransactionMetadataLabels(SortedPageRequest(1))
       .extract
       .map(body => {
-        body should matchPattern { case List(MetadataLabel("0", null, _)) => }
+        body should matchPattern { case List(MetadataLabel("0", None, _)) => }
         succeed
       })
   }
@@ -27,7 +28,7 @@ class MetadataApiSpec extends AsyncFlatSpec with Matchers with TestContextSuppor
       .getTransactionMetadataContentJson("0", SortedPageRequest(1))
       .extract
       .map(body => {
-        body shouldBe List(MetadataContentJson("1c8997f9f0debde5b15fe29f0f18839a64e51c19ccdbe89e2811930d777c9b68", JString("cardano")))
+        body shouldBe List(MetadataContentJson("1c8997f9f0debde5b15fe29f0f18839a64e51c19ccdbe89e2811930d777c9b68", JString("cardano").toSome))
         succeed
       })
   }
@@ -37,7 +38,7 @@ class MetadataApiSpec extends AsyncFlatSpec with Matchers with TestContextSuppor
       .getTransactionMetadataContentCbor("0", SortedPageRequest(1))
       .extract
       .map(body => {
-        body shouldBe List(MetadataContentCbor("1c8997f9f0debde5b15fe29f0f18839a64e51c19ccdbe89e2811930d777c9b68", "\\xa1006763617264616e6f"))
+        body shouldBe List(MetadataContentCbor("1c8997f9f0debde5b15fe29f0f18839a64e51c19ccdbe89e2811930d777c9b68", "\\xa1006763617264616e6f".some))
         succeed
       })
   }

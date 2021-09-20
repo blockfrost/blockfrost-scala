@@ -25,7 +25,7 @@ class AssetsApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport 
       .getSpecificAsset("476039a0949cf0b22f6a800f56780184c44533887ca6e821007840c36e7574636f696e")
       .extract
       .map(body => {
-        body shouldBe Asset("476039a0949cf0b22f6a800f56780184c44533887ca6e821007840c36e7574636f696e", "476039a0949cf0b22f6a800f56780184c44533887ca6e821007840c3", "6e7574636f696e", "asset1jtqefvdycrenq2ly6ct8rwcu5e58va432vj586", "1", "e067ca567df4920f4ac3babc4d805d2afe860e21aa7f6f78dbe8538caf9d8262", 1, None, None)
+        body should matchPattern { case Asset("476039a0949cf0b22f6a800f56780184c44533887ca6e821007840c36e7574636f696e", "476039a0949cf0b22f6a800f56780184c44533887ca6e821007840c3", Some("6e7574636f696e"), "asset1jtqefvdycrenq2ly6ct8rwcu5e58va432vj586", "1", "e067ca567df4920f4ac3babc4d805d2afe860e21aa7f6f78dbe8538caf9d8262", 1, _, _) => }
         succeed
       })
   }
