@@ -99,7 +99,7 @@ object PoolsApi {
                           name: Option[String],
                           description: Option[String],
                           homepage: Option[String])
-  case class PoolRelay(ipv4: String, ipv6: String, dns: String, dns_srv: String, port: Int)
+  case class PoolRelay(ipv4: Option[String], ipv6: Option[String], dns: Option[String], dns_srv: Option[String], port: Int)
   case class PoolDelegator(address: String, live_stake: String)
   case class PoolUpdate(tx_hash: String, cert_index: Int, action: String)
 }

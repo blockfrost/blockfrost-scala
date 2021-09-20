@@ -36,7 +36,7 @@ trait NutlinkApiImpl[F[_], P] extends NutlinkApi[F, P] {
 }
 
 object NutlinkApi {
-  case class AddressMetadata(address: String, metadata_url: String, metadata_hash: String, metadata: Map[String, String])
+  case class AddressMetadata(address: String, metadata_url: String, metadata_hash: String, metadata: Option[Map[String, String]])
   case class Ticker(name: String, count: Double, latest_block: Double)
   case class TickerRecord(address: Option[String], tx_hash: String, block_height: Double, tx_index: Double, payload: JValue)
 }

@@ -46,11 +46,11 @@ trait AssetsApiImpl[F[_], P] extends AssetsApi[F, P] {
 
 object AssetsApi {
   case class AssetShort(asset: String, quantity: String)
-  case class Metadata(name: String, description: String, ticker: String, url: String, logo: String, decimals: Int)
+  case class Metadata(name: String, description: String, ticker: Option[String], url: Option[String], logo: Option[String], decimals: Option[Int])
   case class OnchainMetadata(name: String, image: String)
   case class Asset(asset: String,
                    policy_id: String,
-                   asset_name: String,
+                   asset_name: Option[String],
                    fingerprint: String,
                    quantity: String,
                    initial_mint_tx_hash: String,
