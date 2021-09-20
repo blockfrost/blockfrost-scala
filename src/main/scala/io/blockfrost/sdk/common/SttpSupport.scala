@@ -15,7 +15,7 @@ trait SttpSupport {
   def get[F[_], P, R: Manifest](uri: Uri, pageRequest: Option[PageRequest] = None)
                                (implicit key: ApiKey, f: Formats, s: Serialization, b: SttpBackend[F, P], config: Config): F[ApiResponse[R]] = {
     val uriWithQueryParams = pageRequest.map {
-      case SortedPageRequest(count, page, order) => uri.addQuerySegment(KeyValue("page", page.toString)).addQuerySegment(KeyValue("count", count.toString)).addQuerySegment(KeyValue("order", order))
+      case SortedPageRequest(count, page, order) => uri.addQuerySegment(KeyValue("page", page.toString)).addQuerySegment(KeyValue("count", count.toString)).addQuerySegment(KeyValue("order", order.get))
       case UnsortedPageRequest(count, page) => uri.addQuerySegment(KeyValue("page", page.toString)).addQuerySegment(KeyValue("count", count.toString))
     }.getOrElse(uri)
     baseGet(uriWithQueryParams)
