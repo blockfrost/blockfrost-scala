@@ -2,20 +2,20 @@ package io.blockfrost.sdk.api
 
 import io.blockfrost.sdk.ApiClient
 import io.blockfrost.sdk.api.LedgerApi.Genesis
-import io.blockfrost.sdk.common.SttpSupport
+import io.blockfrost.sdk.common.{Config, SttpSupport}
 import org.json4s.{Formats, Serialization}
 import sttp.client3.UriContext
 
 trait LedgerApi[F[_], P] extends SttpSupport {
   this: ApiClient[F, P] =>
 
-  def getBlockchainGenesis(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Genesis]]
+  def getBlockchainGenesis(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Genesis]]
 }
 
 trait LedgerApiImpl[F[_], P] extends LedgerApi[F, P] {
   this: ApiClient[F, P] =>
 
-  override def getBlockchainGenesis(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Genesis]] =
+  override def getBlockchainGenesis(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Genesis]] =
     get(uri"$host/genesis")
 }
 

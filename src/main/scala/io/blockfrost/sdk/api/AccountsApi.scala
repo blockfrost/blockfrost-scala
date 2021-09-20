@@ -2,60 +2,60 @@ package io.blockfrost.sdk.api
 
 import io.blockfrost.sdk.ApiClient
 import io.blockfrost.sdk.api.AccountsApi._
-import io.blockfrost.sdk.common.{SortedPageRequest, SttpSupport}
+import io.blockfrost.sdk.common.{Config, SortedPageRequest, SttpSupport}
 import org.json4s.{Formats, Serialization}
 import sttp.client3.UriContext
 
 trait AccountsApi[F[_], P] extends SttpSupport {
   this: ApiClient[F, P] =>
 
-  def getSpecificCardanoAddress(stakeAddress: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[AccountAddress]]
+  def getSpecificCardanoAddress(stakeAddress: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[AccountAddress]]
 
-  def getAccountRewardHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[RewardHistory]]]
+  def getAccountRewardHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[RewardHistory]]]
 
-  def getAccountHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[RewardHistory]]]
+  def getAccountHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[RewardHistory]]]
 
-  def getAccountDelegationHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[DelegationHistory]]]
+  def getAccountDelegationHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[DelegationHistory]]]
 
-  def getAccountRegistrationHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[RegistrationHistory]]]
+  def getAccountRegistrationHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[RegistrationHistory]]]
 
-  def getAccountWithdrawalHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[WithdrawalHistory]]]
+  def getAccountWithdrawalHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[WithdrawalHistory]]]
 
-  def getAccountMirHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[MirHistory]]]
+  def getAccountMirHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[MirHistory]]]
 
-  def getAccountAssociatedAddresses(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[Address]]]
+  def getAccountAssociatedAddresses(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[Address]]]
 
-  def getAccountAssociatedAssets(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[Asset]]]
+  def getAccountAssociatedAssets(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[Asset]]]
 }
 
 trait AccountsApiImpl[F[_], P] extends AccountsApi[F, P] {
   this: ApiClient[F, P] =>
 
-  override def getSpecificCardanoAddress(stakeAddress: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[AccountAddress]] =
+  override def getSpecificCardanoAddress(stakeAddress: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[AccountAddress]] =
     get(uri"$host/accounts/$stakeAddress")
 
-  override def getAccountRewardHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[RewardHistory]]] =
+  override def getAccountRewardHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[RewardHistory]]] =
     get(uri"$host/accounts/$stakeAddress/rewards", Some(pageRequest))
 
-  override def getAccountHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[RewardHistory]]] =
+  override def getAccountHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[RewardHistory]]] =
     get(uri"$host/accounts/$stakeAddress/history", Some(pageRequest))
 
-  override def getAccountDelegationHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[DelegationHistory]]] =
+  override def getAccountDelegationHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[DelegationHistory]]] =
     get(uri"$host/accounts/$stakeAddress/delegations", Some(pageRequest))
 
-  override def getAccountRegistrationHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[RegistrationHistory]]] =
+  override def getAccountRegistrationHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[RegistrationHistory]]] =
     get(uri"$host/accounts/$stakeAddress/registrations", Some(pageRequest))
 
-  override def getAccountWithdrawalHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[WithdrawalHistory]]] =
+  override def getAccountWithdrawalHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[WithdrawalHistory]]] =
     get(uri"$host/accounts/$stakeAddress/withdrawals", Some(pageRequest))
 
-  override def getAccountMirHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[MirHistory]]] =
+  override def getAccountMirHistory(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[MirHistory]]] =
     get(uri"$host/accounts/$stakeAddress/mirs", Some(pageRequest))
 
-  override def getAccountAssociatedAddresses(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[Address]]] =
+  override def getAccountAssociatedAddresses(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[Address]]] =
     get(uri"$host/accounts/$stakeAddress/addresses", Some(pageRequest))
 
-  override def getAccountAssociatedAssets(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[Asset]]] =
+  override def getAccountAssociatedAssets(stakeAddress: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[Asset]]] =
     get(uri"$host/accounts/$stakeAddress/addresses/assets", Some(pageRequest))
 }
 
