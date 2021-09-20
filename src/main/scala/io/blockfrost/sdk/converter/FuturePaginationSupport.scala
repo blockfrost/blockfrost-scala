@@ -13,7 +13,7 @@ import scala.concurrent.{ExecutionContext, Future}
 object FuturePaginationSupport extends LazyLogging {
   private type ApiRequest[A] = PageRequest => Future[Seq[A]]
 
-  def getAllPages[A](request: ApiRequest[A], order: Option[String])(implicit config: Config, ec: ExecutionContext): Future[Seq[A]] = {
+  def getAllPages[A](request: ApiRequest[A], order: Option[Order])(implicit config: Config, ec: ExecutionContext): Future[Seq[A]] = {
     val pageRef = new AtomicInteger(0)
     val hasNext = new AtomicBoolean(true)
     val pageRequest: PageRequest = order match {
