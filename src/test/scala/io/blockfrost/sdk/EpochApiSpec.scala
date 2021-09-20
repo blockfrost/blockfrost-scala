@@ -133,7 +133,7 @@ class EpochApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
   }
 
   trait TestContext {
-    val api: EpochsApi[Future, Any] = new EpochsApiImpl[Future, Any] with TestMainnetApiClient
+    val api: EpochsApi[Future, Any] = new EpochsApiImpl[Future, Any] with TestnetApiClient
     val firstEpoch: Epoch = Epoch(1, 1564431616, 1564863616, 1564431616, 1564863596, 21601, 305, "152336265877919", "54105620", null)
   }
 

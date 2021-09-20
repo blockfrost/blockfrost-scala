@@ -91,7 +91,7 @@ class BlockApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
   }
 
   trait TestContext {
-    val api: BlockApi[Future, Any] = new BlockApiImpl[Future, Any] with TestMainnetApiClient
+    val api: BlockApi[Future, Any] = new BlockApiImpl[Future, Any] with TestnetApiClient
   }
 
   implicit val testContext: TestContext = new TestContext {}
