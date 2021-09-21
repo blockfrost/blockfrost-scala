@@ -127,14 +127,14 @@ class EpochApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
       .getProtocolParameters(100)
       .extract
       .map(body => {
-        body shouldBe EpochProtocolParameters(100, 44, 155381, 65536, 16384, 1100, "2000000", "500000000", 18, 500, 0.3, 0.003, 0.2, 0.25, null, 2, 0, "1000000", "340000000", "03b4c293000b19771f7c96dbdaead1b7071944f4a28b83cb9fddba19e2947211")
+        body shouldBe EpochProtocolParameters(100, 44, 155381, 65536, 16384, 1100, "2000000", "500000000", 18, 500, 0.3, 0.003, 0.2, 0.25, None, 2, 0, "1000000", "340000000", "03b4c293000b19771f7c96dbdaead1b7071944f4a28b83cb9fddba19e2947211", None, None, None, None, None, None, None, None, None, None)
         succeed
       })
   }
 
   trait TestContext {
     val api: EpochsApi[Future, Any] = new EpochsApiImpl[Future, Any] with TestnetApiClient
-    val firstEpoch: Epoch = Epoch(1, 1564431616, 1564863616, 1564431616, 1564863596, 21601, 305, "152336265877919", "54105620", null)
+    val firstEpoch: Epoch = Epoch(1, 1564431616, 1564863616, 1564431616, 1564863596, 21601, 305, "152336265877919", "54105620", None)
   }
 
   implicit val testContext: TestContext = new TestContext {}
