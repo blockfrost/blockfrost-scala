@@ -2,65 +2,65 @@ package io.blockfrost.sdk.api
 
 import io.blockfrost.sdk.ApiClient
 import io.blockfrost.sdk.api.PoolsApi._
-import io.blockfrost.sdk.common.{SortedPageRequest, SttpSupport}
+import io.blockfrost.sdk.common.{Config, SortedPageRequest, SttpSupport}
 import org.json4s.{Formats, Serialization}
 import sttp.client3.UriContext
 
 trait PoolsApi[F[_], P] extends SttpSupport {
   this: ApiClient[F, P] =>
 
-  def getListOfStakePools(pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[String]]]
+  def getListOfStakePools(pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[String]]]
 
-  def getListOfRetiredStakePools(pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[PoolContent]]]
+  def getListOfRetiredStakePools(pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[PoolContent]]]
 
-  def getListOfRetiringStakePools(pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[PoolContent]]]
+  def getListOfRetiringStakePools(pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[PoolContent]]]
 
-  def getSpecificStakePool(poolId: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[StakePool]]
+  def getSpecificStakePool(poolId: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[StakePool]]
 
-  def getStakePoolHistory(poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[PoolHistory]]]
+  def getStakePoolHistory(poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[PoolHistory]]]
 
-  def getStakePoolMetadata(poolId: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[PoolMetadata]]
+  def getStakePoolMetadata(poolId: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[PoolMetadata]]
 
-  def getStakePoolRelays(poolId: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[PoolRelay]]]
+  def getStakePoolRelays(poolId: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[PoolRelay]]]
 
-  def getStakePoolDelegators(poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[PoolDelegator]]]
+  def getStakePoolDelegators(poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[PoolDelegator]]]
 
-  def getStakePoolBlocks(poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[String]]]
+  def getStakePoolBlocks(poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[String]]]
 
-  def getStakePoolUpdates(poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[PoolUpdate]]]
+  def getStakePoolUpdates(poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[PoolUpdate]]]
 }
 
 trait PoolsApiImpl[F[_], P] extends PoolsApi[F, P] {
   this: ApiClient[F, P] =>
 
-  override def getListOfStakePools(pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[String]]] =
+  override def getListOfStakePools(pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[String]]] =
     get(uri"$host/pools", Some(pageRequest))
 
-  override def getListOfRetiredStakePools(pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[PoolContent]]] =
+  override def getListOfRetiredStakePools(pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[PoolContent]]] =
     get(uri"$host/pools/retired", Some(pageRequest))
 
-  override def getListOfRetiringStakePools(pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[PoolContent]]] =
+  override def getListOfRetiringStakePools(pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[PoolContent]]] =
     get(uri"$host/pools/retiring", Some(pageRequest))
 
-  override def getSpecificStakePool(poolId: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[StakePool]] =
+  override def getSpecificStakePool(poolId: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[StakePool]] =
     get(uri"$host/pools/$poolId")
 
-  override def getStakePoolHistory(poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[PoolHistory]]] =
+  override def getStakePoolHistory(poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[PoolHistory]]] =
     get(uri"$host/pools/$poolId/history", Some(pageRequest))
 
-  override def getStakePoolMetadata(poolId: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[PoolMetadata]] =
+  override def getStakePoolMetadata(poolId: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[PoolMetadata]] =
     get(uri"$host/pools/$poolId/metadata")
 
-  override def getStakePoolRelays(poolId: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[PoolRelay]]] =
+  override def getStakePoolRelays(poolId: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[PoolRelay]]] =
     get(uri"$host/pools/$poolId/relays")
 
-  override def getStakePoolDelegators(poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[PoolDelegator]]] =
+  override def getStakePoolDelegators(poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[PoolDelegator]]] =
     get(uri"$host/pools/$poolId/delegators", Some(pageRequest))
 
-  override def getStakePoolBlocks(poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[String]]] =
+  override def getStakePoolBlocks(poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[String]]] =
     get(uri"$host/pools/$poolId/blocks", Some(pageRequest))
 
-  override def getStakePoolUpdates(poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[PoolUpdate]]] =
+  override def getStakePoolUpdates(poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[PoolUpdate]]] =
     get(uri"$host/pools/$poolId/updates", Some(pageRequest))
 }
 
@@ -99,7 +99,7 @@ object PoolsApi {
                           name: Option[String],
                           description: Option[String],
                           homepage: Option[String])
-  case class PoolRelay(ipv4: String, ipv6: String, dns: String, dns_srv: String, port: Int)
+  case class PoolRelay(ipv4: Option[String], ipv6: Option[String], dns: Option[String], dns_srv: Option[String], port: Int)
   case class PoolDelegator(address: String, live_stake: String)
   case class PoolUpdate(tx_hash: String, cert_index: Int, action: String)
 }

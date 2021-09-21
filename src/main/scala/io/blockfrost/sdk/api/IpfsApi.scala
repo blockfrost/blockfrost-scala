@@ -2,62 +2,58 @@ package io.blockfrost.sdk.api
 
 import io.blockfrost.sdk.ApiClient
 import io.blockfrost.sdk.api.IpfsApi.{IpfsObject, PinnedObject}
-import io.blockfrost.sdk.common.{PageRequest, SortedPageRequest, SttpSupport}
+import io.blockfrost.sdk.common.{Config, PageRequest, SortedPageRequest, SttpSupport}
 import org.json4s.{Formats, Serialization}
 import sttp.client3.json4s.asJson
-import sttp.client3.{Response, UriContext, asByteArray, basicRequest, multipartFile}
+import sttp.client3.{Response, UriContext, asByteArray, multipartFile}
 
 import java.io.{File, FileNotFoundException}
 
 trait IpfsApi[F[_], P] extends SttpSupport {
   this: ApiClient[F, P] =>
 
-  def addObject(file: File)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[IpfsObject]]
+  def addObject(file: File)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[IpfsObject]]
 
-  def getObject(path: String)(implicit formats: Formats, serialization: Serialization): F[Response[Either[String, Array[Byte]]]]
+  def getObject(path: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[Response[Either[String, Array[Byte]]]]
 
-  def pinObject(path: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[PinnedObject]]
+  def pinObject(path: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[PinnedObject]]
 
-  def listPinnedObjects(pageRequest: PageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[PinnedObject]]]
+  def listPinnedObjects(pageRequest: PageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[PinnedObject]]]
 
-  def getPinnedObject(path: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[PinnedObject]]
+  def getPinnedObject(path: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[PinnedObject]]
 
-  def removePinnedObject(path: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[PinnedObject]]
+  def removePinnedObject(path: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[PinnedObject]]
 }
 
 trait IpfsApiImpl[F[_], P] extends IpfsApi[F, P] {
   this: ApiClient[F, P] =>
 
-  override def addObject(file: File)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[IpfsObject]] = {
+  override def addObject(file: File)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[IpfsObject]] = {
     if (!file.exists()) throw new FileNotFoundException("File doesn't exist")
-    basicRequest.post(uri"$host/ipfs/add")
+    basePost(uri"$host/ipfs/add")
       .multipartBody(multipartFile("file[0]", file))
-      .header("project_id", apiKey)
       .response(asJson[IpfsObject])
       .send(sttpBackend)
   }
 
-  override def getObject(path: String)(implicit formats: Formats, serialization: Serialization): F[Response[Either[String, Array[Byte]]]] =
-    basicRequest.get(uri"$host/ipfs/gateway/$path")
-      .header("project_id", apiKey)
+  override def getObject(path: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[Response[Either[String, Array[Byte]]]] =
+    baseGet(uri"$host/ipfs/gateway/$path")
       .response(asByteArray)
       .send(sttpBackend)
 
-  override def pinObject(path: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[PinnedObject]] =
-    basicRequest.post(uri"$host/ipfs/pin/add/$path")
-      .header("project_id", apiKey)
+  override def pinObject(path: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[PinnedObject]] =
+    basePost(uri"$host/ipfs/pin/add/$path")
       .response(asJson[PinnedObject])
       .send(sttpBackend)
 
-  override def listPinnedObjects(pageRequest: PageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[PinnedObject]]] =
+  override def listPinnedObjects(pageRequest: PageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[PinnedObject]]] =
     get(uri"$host/ipfs/pin/list")
 
-  override def getPinnedObject(path: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[PinnedObject]] =
+  override def getPinnedObject(path: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[PinnedObject]] =
     get(uri"$host/ipfs/pin/list/$path")
 
-  override def removePinnedObject(path: String)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[PinnedObject]] =
-    basicRequest.post(uri"$host/ipfs/pin/remove/$path")
-      .header("project_id", apiKey)
+  override def removePinnedObject(path: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[PinnedObject]] =
+    basePost(uri"$host/ipfs/pin/remove/$path")
       .response(asJson[PinnedObject])
       .send(sttpBackend)
 }

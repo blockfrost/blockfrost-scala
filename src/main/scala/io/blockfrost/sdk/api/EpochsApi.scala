@@ -2,65 +2,65 @@ package io.blockfrost.sdk.api
 
 import io.blockfrost.sdk.ApiClient
 import io.blockfrost.sdk.api.EpochsApi.{Epoch, EpochProtocolParameters, PoolStakeDistribution, StakeDistribution}
-import io.blockfrost.sdk.common.{SortedPageRequest, SttpSupport, UnsortedPageRequest}
+import io.blockfrost.sdk.common.{Config, SortedPageRequest, SttpSupport, UnsortedPageRequest}
 import org.json4s.{Formats, Serialization}
 import sttp.client3.UriContext
 
 trait EpochsApi[F[_], P] extends SttpSupport {
   this: ApiClient[F, P] =>
 
-  def getLatestEpoch(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Epoch]]
+  def getLatestEpoch(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Epoch]]
 
-  def getLatestEpochProtocolParameters(implicit formats: Formats, serialization: Serialization): F[ApiResponse[EpochProtocolParameters]]
+  def getLatestEpochProtocolParameters(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[EpochProtocolParameters]]
 
-  def getSpecificEpoch(number: Int)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Epoch]]
+  def getSpecificEpoch(number: Int)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Epoch]]
 
-  def getListingOfNextEpochs(number: Int, pageRequest: UnsortedPageRequest = UnsortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[Epoch]]]
+  def getListingOfNextEpochs(number: Int, pageRequest: UnsortedPageRequest = UnsortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[Epoch]]]
 
-  def getListingOfPreviousEpochs(number: Int, pageRequest: UnsortedPageRequest = UnsortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[Epoch]]]
+  def getListingOfPreviousEpochs(number: Int, pageRequest: UnsortedPageRequest = UnsortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[Epoch]]]
 
-  def getStakeDistribution(number: Int, pageRequest: UnsortedPageRequest = UnsortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[StakeDistribution]]]
+  def getStakeDistribution(number: Int, pageRequest: UnsortedPageRequest = UnsortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[StakeDistribution]]]
 
-  def getStakeDistributionByPool(number: Int, poolId: String, pageRequest: UnsortedPageRequest = UnsortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[PoolStakeDistribution]]]
+  def getStakeDistributionByPool(number: Int, poolId: String, pageRequest: UnsortedPageRequest = UnsortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[PoolStakeDistribution]]]
 
-  def getBlockDistribution(number: Int, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[String]]]
+  def getBlockDistribution(number: Int, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[String]]]
 
-  def getBlockDistributionByPool(number: Int, poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[String]]]
+  def getBlockDistributionByPool(number: Int, poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[String]]]
 
-  def getProtocolParameters(number: Int)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[EpochProtocolParameters]]
+  def getProtocolParameters(number: Int)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[EpochProtocolParameters]]
 }
 
 trait EpochsApiImpl[F[_], P] extends EpochsApi[F, P] {
   this: ApiClient[F, P] =>
 
-  override def getLatestEpoch(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Epoch]] =
+  override def getLatestEpoch(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Epoch]] =
     get(uri"$host/epochs/latest")
 
-  override def getLatestEpochProtocolParameters(implicit formats: Formats, serialization: Serialization): F[ApiResponse[EpochProtocolParameters]] =
+  override def getLatestEpochProtocolParameters(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[EpochProtocolParameters]] =
     get(uri"$host/epochs/latest/parameters")
 
-  override def getSpecificEpoch(number: Int)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Epoch]] =
+  override def getSpecificEpoch(number: Int)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Epoch]] =
     get(uri"$host/epochs/$number")
 
-  override def getListingOfNextEpochs(number: Int, pageRequest: UnsortedPageRequest = UnsortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[Epoch]]] =
+  override def getListingOfNextEpochs(number: Int, pageRequest: UnsortedPageRequest = UnsortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[Epoch]]] =
     get(uri"$host/epochs/$number/next", Some(pageRequest))
 
-  override def getListingOfPreviousEpochs(number: Int, pageRequest: UnsortedPageRequest = UnsortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[Epoch]]] =
+  override def getListingOfPreviousEpochs(number: Int, pageRequest: UnsortedPageRequest = UnsortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[Epoch]]] =
     get(uri"$host/epochs/$number/previous", Some(pageRequest))
 
-  override def getStakeDistribution(number: Int, pageRequest: UnsortedPageRequest = UnsortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[StakeDistribution]]] =
+  override def getStakeDistribution(number: Int, pageRequest: UnsortedPageRequest = UnsortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[StakeDistribution]]] =
     get(uri"$host/epochs/$number/stakes", Some(pageRequest))
 
-  override def getStakeDistributionByPool(number: Int, poolId: String, pageRequest: UnsortedPageRequest = UnsortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[PoolStakeDistribution]]] =
+  override def getStakeDistributionByPool(number: Int, poolId: String, pageRequest: UnsortedPageRequest = UnsortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[PoolStakeDistribution]]] =
     get(uri"$host/epochs/$number/stakes/$poolId", Some(pageRequest))
 
-  override def getBlockDistribution(number: Int, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[String]]] =
+  override def getBlockDistribution(number: Int, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[String]]] =
     get(uri"$host/epochs/$number/blocks", Some(pageRequest))
 
-  override def getBlockDistributionByPool(number: Int, poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization): F[ApiResponse[Seq[String]]] =
+  override def getBlockDistributionByPool(number: Int, poolId: String, pageRequest: SortedPageRequest = SortedPageRequest())(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[String]]] =
     get(uri"$host/epochs/$number/blocks/$poolId", Some(pageRequest))
 
-  override def getProtocolParameters(number: Int)(implicit formats: Formats, serialization: Serialization): F[ApiResponse[EpochProtocolParameters]] =
+  override def getProtocolParameters(number: Int)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[EpochProtocolParameters]] =
     get(uri"$host/epochs/$number/parameters")
 }
 
@@ -74,7 +74,7 @@ object EpochsApi {
                    tx_count: Int,
                    output: String,
                    fees: String,
-                   active_stake: String)
+                   active_stake: Option[String])
   case class EpochProtocolParameters(epoch: Int,
                                      min_fee_a: Int,
                                      min_fee_b: Int,
@@ -89,12 +89,22 @@ object EpochsApi {
                                      rho: Double,
                                      tau: Double,
                                      decentralisation_param: Double,
-                                     extra_entropy: String,
+                                     extra_entropy: Option[String],
                                      protocol_major_ver: Int,
                                      protocol_minor_ver: Int,
                                      min_utxo: String,
                                      min_pool_cost: String,
-                                     nonce: String)
+                                     nonce: String,
+                                     price_mem: Option[Double],
+                                     price_step: Option[Double],
+                                     max_tx_ex_mem: Option[String],
+                                     max_tx_ex_steps: Option[String],
+                                     max_block_ex_mem: Option[String],
+                                     max_block_ex_steps: Option[String],
+                                     max_val_size: Option[String],
+                                     collateral_percent: Option[Double],
+                                     max_collateral_inputs: Option[Double],
+                                     coins_per_utxo_word: Option[String])
   case class StakeDistribution(stake_address: String, pool_id: String, amount: String)
   case class PoolStakeDistribution(stake_address: String, amount: String)
 }
