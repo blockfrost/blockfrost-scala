@@ -3,7 +3,7 @@ package io.blockfrost.sdk
 import io.blockfrost.sdk.api.EpochsApi.{Epoch, EpochProtocolParameters}
 import io.blockfrost.sdk.api.{EpochsApi, EpochsApiImpl}
 import io.blockfrost.sdk.common.{SortedPageRequest, UnsortedPageRequest}
-import io.blockfrost.sdk.converter.FutureResponseConverter.FutureResponseOps
+import io.blockfrost.sdk.effect.FutureResponseConverter.FutureResponseOps
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 

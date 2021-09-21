@@ -2,7 +2,7 @@ package io.blockfrost.sdk
 
 import io.blockfrost.sdk.api.AddressesApi._
 import io.blockfrost.sdk.api.{AddressesApi, AddressesApiImpl}
-import io.blockfrost.sdk.converter.FutureResponseConverter.FutureResponseOps
+import io.blockfrost.sdk.effect.FutureResponseConverter.FutureResponseOps
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 
