@@ -1,4 +1,4 @@
-[![Scala CI with SBT](https://github.com/blockfrost/blockfrost-scala/actions/workflows/gradle.yml/badge.svg?branch=master)](https://github.com/blockfrost/blockfrost-scala/actions/workflows/gradle.yml)
+[![Scala CI with SBT](https://github.com/blockfrost/blockfrost-scala/actions/workflows/actions.yml/badge.svg?branch=master)](https://github.com/blockfrost/blockfrost-scala/actions/workflows/actions.yml)
 
 # blockfrost-scala
 
