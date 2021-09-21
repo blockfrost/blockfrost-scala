@@ -37,9 +37,9 @@ Add blockfrost-scala dependency to your build.sbt
 libraryDependencies += "io.blockfrost" %% "blockfrost-scala" % "0.1.0"
 ```
 
-This library require any sttp backend application in your classpath. Full list of supported backends: [Supported backends](https://sttp.softwaremill.com/en/latest/backends/summary.html).
+This library requires one of sttp backend in your classpath. Full list of supported backends: [Supported backends](https://sttp.softwaremill.com/en/latest/backends/summary.html).
 
-This library has built-in support for Future sttp backend to transform response type from `Future[Response[Either[ResponseException[String, Exception], R]]]` to `Future[R]` and fetch all pages from APIs with pagination (see `FuturePaginationSupport` and `FutureResponseConverter` classes). Anyway, this library is designed to use it with any other functional effect wrapper like [ZIO](https://github.com/zio/zio), [Monix](https://monix.io/), [Scalaz](https://github.com/scalaz/scalaz), [cats-effect](https://github.com/typelevel/cats-effect), [fs2](https://github.com/typelevel/fs2) etc.
+Blockfrost-scala library has built-in support for Future sttp backend to transform response type from `Future[Response[Either[ResponseException[String, Exception], R]]]` to `Future[R]` and fetch all pages from APIs with pagination (see `FuturePaginationSupport` and `FutureResponseConverter` classes). Anyway, this library is designed to use it with any other functional effect wrapper like [ZIO](https://github.com/zio/zio), [Monix](https://monix.io/), [Scalaz](https://github.com/scalaz/scalaz), [cats-effect](https://github.com/typelevel/cats-effect), [fs2](https://github.com/typelevel/fs2) etc.
 
 For this example we will use [async-http-client](https://sttp.softwaremill.com/en/latest/backends/future.html#using-async-http-client) based on Future:
 
@@ -49,7 +49,7 @@ libraryDependencies += "com.softwaremill.sttp.client3" %% "async-http-client-bac
 
 **Note:** Replace '$version' with the correct version number
 
-#### Following services are available
+#### Following services are available:
 
 - **Cardano**
   - AccountsApi
