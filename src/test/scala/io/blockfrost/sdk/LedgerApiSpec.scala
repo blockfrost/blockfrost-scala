@@ -2,7 +2,7 @@ package io.blockfrost.sdk
 
 import io.blockfrost.sdk.api.LedgerApi.Genesis
 import io.blockfrost.sdk.api.{LedgerApi, LedgerApiImpl}
-import io.blockfrost.sdk.converter.FutureResponseConverter.FutureResponseOps
+import io.blockfrost.sdk.effect.FutureResponseConverter.FutureResponseOps
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 

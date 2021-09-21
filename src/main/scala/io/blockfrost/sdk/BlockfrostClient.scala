@@ -27,8 +27,8 @@ class BlockfrostClient[F[_], P](config: BlockfrostClientConfig[F, P]) extends Ap
 }
 
 object BlockfrostClient {
-  def apply[F[_], P](sttpBackend: SttpBackend[F, P], network: Network): BlockfrostClient[F, P] =
-    new BlockfrostClient(BlockfrostClientConfig(sttpBackend, getApiKeyFromEnvVariables, network.url))
+  def apply[F[_], P](sttpBackend: SttpBackend[F, P], network: Network, apiKey: String): BlockfrostClient[F, P] =
+    new BlockfrostClient(BlockfrostClientConfig(sttpBackend, apiKey, network.url))
 
   def apply[F[_], P](sttpBackend: SttpBackend[F, P]): BlockfrostClient[F, P] =
     new BlockfrostClient(BlockfrostClientConfig(sttpBackend, getApiKeyFromEnvVariables, getHostFromEnvVariables))
