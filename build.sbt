@@ -1,6 +1,7 @@
 scalaVersion := "2.13.6"
 organization := "io.blockfrost"
 name := "blockfrost-scala"
+version := "0.1.0"
 
 val json4sVersion = "4.0.3"
 val sttpVersion = "3.3.13"
@@ -13,6 +14,5 @@ libraryDependencies ++= Seq(
 
   "org.scalatest" %% "scalatest" % "3.2.2" % Test,
   "com.softwaremill.sttp.client3" %% "async-http-client-backend-future" % sttpVersion % Test,
-  "com.softwaremill.sttp.client3" %% "async-http-client-backend" % sttpVersion % Test,
   "com.avsystem.commons" %% "commons-core" % "2.2.6" % Test
 )

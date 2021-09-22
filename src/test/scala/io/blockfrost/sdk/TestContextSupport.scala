@@ -10,7 +10,7 @@ import scala.concurrent.Future
 import scala.language.implicitConversions
 
 trait TestContextSupport {
-  implicit val formats: Formats = io.blockfrost.sdk.common.Serialization.formats
+  implicit val formats: Formats = org.json4s.DefaultFormats
   implicit val serialization: org.json4s.Serialization = org.json4s.jackson.Serialization
   implicit val sdkConfig: Config = Config(5, 500, 5000)
   val backend: SttpBackend[Future, Any] = AsyncHttpClientFutureBackend()

@@ -2,7 +2,7 @@ package io.blockfrost.sdk
 
 import io.blockfrost.sdk.api.HealthApi.HealthStatus
 import io.blockfrost.sdk.api.{HealthApi, HealthApiImpl}
-import io.blockfrost.sdk.converter.FutureResponseConverter._
+import io.blockfrost.sdk.effect.FutureResponseConverter._
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -20,7 +20,6 @@ class HealthApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport 
   }
 
   "getBackendTime" should "return BackendTime" in genericTestContext[TestContext] { ctx =>
-    import io.blockfrost.sdk.converter.FutureResponseConverter._
     ctx.api
       .getBackendTime
       .extract

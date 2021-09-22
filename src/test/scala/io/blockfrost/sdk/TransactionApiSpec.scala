@@ -3,7 +3,7 @@ package io.blockfrost.sdk
 import com.avsystem.commons.serialization.cbor.CborOutput
 import io.blockfrost.sdk.api.TransactionsApi.{Transaction, TransactionUtxos}
 import io.blockfrost.sdk.api.{TransactionsApi, TransactionsApiImpl}
-import io.blockfrost.sdk.converter.FutureResponseConverter.FutureResponseOps
+import io.blockfrost.sdk.effect.FutureResponseConverter.FutureResponseOps
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 

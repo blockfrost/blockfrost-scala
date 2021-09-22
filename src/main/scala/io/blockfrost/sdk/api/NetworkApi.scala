@@ -15,7 +15,7 @@ trait NetworkApi[F[_], P] extends SttpSupport {
 trait NetworkApiImpl[F[_], P] extends NetworkApi[F, P] {
   this: ApiClient[F, P] =>
 
-  override def getNetworkInformation(implicit formats: Formats, serialization: Serialization, config: Config): F[NetworkApiImpl[F, P]#ApiResponse[NetworkInfo]] =
+  override def getNetworkInformation(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[NetworkInfo]] =
     get(uri"$host/network")
 }
 
