@@ -20,7 +20,7 @@ trait TestContextSupport {
   trait MainnetApiClient extends ApiClient[Future, Any] {
     override implicit val sttpBackend: SttpBackend[Future, Any] = backend
 
-    override implicit val apiKey: String = sys.env.getOrElse("BF_MAINNET_PROJECT_ID", throw new RuntimeException("Api key not found in environment variables"))
+    override implicit val apiKey: String = sys.env.getOrElse("BF_MAINNET_PROJECT_ID", throw new RuntimeException("Api key not found in environment variable BF_MAINNET_PROJECT_ID"))
 
     override val host: String = Mainnet.url
   }
@@ -28,7 +28,7 @@ trait TestContextSupport {
   trait TestnetApiClient extends ApiClient[Future, Any] {
     override implicit val sttpBackend: SttpBackend[Future, Any] = backend
 
-    override implicit val apiKey: String = sys.env.getOrElse("BLOCKFROST_API_KEY", throw new RuntimeException("Api key not found in environment variables"))
+    override implicit val apiKey: String = sys.env.getOrElse("BF_TESTNET_PROJECT_ID", throw new RuntimeException("Api key not found in environment variable BF_TESTNET_PROJECT_ID"))
 
     override val host: String = Testnet.url
   }
@@ -36,7 +36,7 @@ trait TestContextSupport {
   trait TestIpfsApiClient extends ApiClient[Future, Any] {
     override implicit val sttpBackend: SttpBackend[Future, Any] = backend
 
-    override implicit val apiKey: String = sys.env.getOrElse("BLOCKFROST_IPFS_API_KEY", throw new RuntimeException("Api key not found in environment variables"))
+    override implicit val apiKey: String = sys.env.getOrElse("BF_IPFS_PROJECT_ID", throw new RuntimeException("Api key not found in environment variable BF_IPFS_PROJECT_ID"))
 
     override val host: String = IPFS.url
   }
