@@ -1,6 +1,6 @@
 package io.blockfrost.sdk
 
-import io.blockfrost.sdk.common.{Config, IPFS, Testnet}
+import io.blockfrost.sdk.common.{Config, IPFS, Mainnet, Testnet}
 import org.json4s.Formats
 import org.scalatest.Assertion
 import sttp.client3.SttpBackend
@@ -16,6 +16,14 @@ trait TestContextSupport {
   val backend: SttpBackend[Future, Any] = AsyncHttpClientFutureBackend()
 
   def genericTestContext[A](test: A => Future[Assertion])(implicit context: A): Future[Assertion] = test(context)
+
+  trait MainnetApiClient extends ApiClient[Future, Any] {
+    override implicit val sttpBackend: SttpBackend[Future, Any] = backend
+
+    override implicit val apiKey: String = sys.env.getOrElse("BF_MAINNET_PROJECT_ID", throw new RuntimeException("Api key not found in environment variables"))
+
+    override val host: String = Mainnet.url
+  }
 
   trait TestnetApiClient extends ApiClient[Future, Any] {
     override implicit val sttpBackend: SttpBackend[Future, Any] = backend
