@@ -9,29 +9,42 @@ import org.scalatest.matchers.should.Matchers
 import scala.concurrent.Future
 
 class HealthApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
-  "getHealthStatus" should "return HealthStatus" in genericTestContext[TestContext] { ctx =>
-    ctx.api
-      .getHealthStatus
-      .extract
-      .map(body => {
-        body shouldBe HealthStatus(true)
-        succeed
-      })
-  }
-
-  "getBackendTime" should "return BackendTime" in genericTestContext[TestContext] { ctx =>
-    ctx.api
-      .getBackendTime
-      .extract
-      .map(body => {
-        body.server_time != 0 shouldBe true
-        succeed
-      })
-  }
-
   trait TestContext {
-    val api: HealthApi[Future, Any] = new HealthApiImpl[Future, Any] with TestnetApiClient
+    val api: HealthApi[Future, Any]
+    val env: String
   }
 
-  implicit val testContext: TestContext = new TestContext {}
+  val testnetTestContext: TestContext = new TestContext {
+    val api: HealthApi[Future, Any] = new HealthApiImpl[Future, Any] with TestnetApiClient
+    val env: String = TestnetEnv
+  }
+
+  val mainnetTestContext: TestContext = new TestContext {
+    val api: HealthApi[Future, Any] = new HealthApiImpl[Future, Any] with MainnetApiClient
+    val env: String = MainnetEnv
+  }
+
+  Seq(testnetTestContext, mainnetTestContext).foreach { ctx =>
+    implicit val testCtx: TestContext = ctx
+
+    s"getHealthStatus [${ctx.env}]" should "return HealthStatus" in genericTestContext[TestContext] { ctx =>
+      ctx.api
+        .getHealthStatus
+        .extract
+        .map(body => {
+          body shouldBe HealthStatus(true)
+          succeed
+        })
+    }
+
+    s"getBackendTime [${ctx.env}]" should "return BackendTime" in genericTestContext[TestContext] { ctx =>
+      ctx.api
+        .getBackendTime
+        .extract
+        .map(body => {
+          body.server_time >= 0 shouldBe true
+          succeed
+        })
+    }
+  }
 }
