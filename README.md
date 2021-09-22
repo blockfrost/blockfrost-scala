@@ -71,7 +71,7 @@ libraryDependencies += "com.softwaremill.sttp.client3" %% "async-http-client-bac
 
 #### Example application with blockfrost-sdk and Future sttp backend
   
-```
+```scala
 import io.blockfrost.sdk.BlockfrostClient
 import io.blockfrost.sdk.api.{AssetsApi, BlockApi, IpfsApi}
 import io.blockfrost.sdk.common._
