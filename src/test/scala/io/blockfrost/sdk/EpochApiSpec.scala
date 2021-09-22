@@ -14,18 +14,21 @@ class EpochApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
     val api: EpochsApi[Future, Any]
     val firstEpoch: Epoch
     val env: String
+    val epochNumber: Int
   }
 
   val testnetTestContext: TestContext = new TestContext {
     val api: EpochsApi[Future, Any] = new EpochsApiImpl[Future, Any] with TestnetApiClient
     val firstEpoch: Epoch = Epoch(1, 1564431616, 1564863616, 1564431616, 1564863596, 21601, 305, "152336265877919", "54105620", None)
     val env: String = TestnetEnv
+    val epochNumber: Int = 100
   }
 
   val mainnetTestContext: TestContext = new TestContext {
     val api: EpochsApi[Future, Any] = new EpochsApiImpl[Future, Any] with MainnetApiClient
     val firstEpoch: Epoch = Epoch(1, 1506635091, 1507067091, 1506635091, 1507067071, 21590, 12870, "101402912214214219", "1033002678", None)
     val env: String = MainnetEnv
+    val epochNumber: Int = 292
   }
 
   Seq(testnetTestContext, mainnetTestContext).foreach { ctx =>
@@ -143,10 +146,10 @@ class EpochApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
 
     s"getProtocolParameters [${ctx.env}]" should "return EpochProtocolParameters" in genericTestContext[TestContext] { ctx =>
       ctx.api
-        .getProtocolParameters(100) //todo: find correct value for mainnet
+        .getProtocolParameters(ctx.epochNumber)
         .extract
         .map(body => {
-          body shouldBe EpochProtocolParameters(100, 44, 155381, 65536, 16384, 1100, "2000000", "500000000", 18, 500, 0.3, 0.003, 0.2, 0.25, None, 2, 0, "1000000", "340000000", "03b4c293000b19771f7c96dbdaead1b7071944f4a28b83cb9fddba19e2947211", None, None, None, None, None, None, None, None, None, None)
+          body should matchPattern { case EpochProtocolParameters(ctx.epochNumber, 44, 155381, 65536, 16384, 1100, "2000000", "500000000", 18, 500, 0.3, 0.003, 0.2, _, None, _, 0, _, "340000000", _, _, _, _, _, _, _, _, _, _, _) => }
           succeed
         })
     }
