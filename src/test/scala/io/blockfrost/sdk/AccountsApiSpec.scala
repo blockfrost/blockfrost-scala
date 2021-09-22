@@ -10,110 +10,127 @@ import org.scalatest.matchers.should.Matchers
 import scala.concurrent.Future
 
 class AccountsApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
-  "getSpecificCardanoAddress" should "return AccountAddress" in genericTestContext[TestContext] { ctx =>
-    ctx.api
-      .getSpecificCardanoAddress("stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl")
-      .extract
-      .map(body => {
-        body should matchPattern { case AccountAddress("stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl", false, 0, _, "0", "0", "0", "0", "0", null) => }
-        succeed
-      })
-  }
-
-  "getSpecificCardanoAddress with invalid address" should "return error" in genericTestContext[TestContext] { ctx =>
-    ctx.api
-      .getSpecificCardanoAddress("1")
-      .extract
-      .map(_ => fail())
-      .recoverWith {
-        case ApiException(error) =>
-          error shouldBe ApiError(400, "Bad Request", "Invalid or malformed stake address format.")
-          succeed
-      }
-  }
-
-  "getAccountRewardHistory" should "return sequence of RewardHistory" in genericTestContext[TestContext] { ctx =>
-    ctx.api
-      .getAccountRewardHistory("stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl", SortedPageRequest(1))
-      .extract
-      .map(body => {
-        body shouldBe List()
-        succeed
-      })
-  }
-
-  "getAccountHistory" should "return sequence of RewardHistory" in genericTestContext[TestContext] { ctx =>
-    ctx.api
-      .getAccountHistory("stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl", SortedPageRequest(1))
-      .extract
-      .map(body => {
-        body shouldBe List()
-        succeed
-      })
-  }
-
-  "getAccountDelegationHistory" should "return sequence of DelegationHistory" in genericTestContext[TestContext] { ctx =>
-    ctx.api
-      .getAccountDelegationHistory("stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl", SortedPageRequest(1))
-      .extract
-      .map(body => {
-        body shouldBe List()
-        succeed
-      })
-  }
-
-  "getAccountRegistrationHistory" should "return sequence of RegistrationHistory" in genericTestContext[TestContext] { ctx =>
-    ctx.api
-      .getAccountRegistrationHistory("stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl", SortedPageRequest(1))
-      .extract
-      .map(body => {
-        body shouldBe List()
-        succeed
-      })
-  }
-
-  "getAccountWithdrawalHistory" should "return sequence of WithdrawalHistory" in genericTestContext[TestContext] { ctx =>
-    ctx.api
-      .getAccountWithdrawalHistory("stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl", SortedPageRequest(1))
-      .extract
-      .map(body => {
-        body shouldBe List()
-        succeed
-      })
-  }
-  "getAccountMirHistory" should "return sequence of MirHistory" in genericTestContext[TestContext] { ctx =>
-    ctx.api
-      .getAccountMirHistory("stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl", SortedPageRequest(1))
-      .extract
-      .map(body => {
-        body shouldBe List()
-        succeed
-      })
-  }
-
-  "getAccountAssociatedAddresses" should "return sequence of Address" in genericTestContext[TestContext] { ctx =>
-    ctx.api
-      .getAccountAssociatedAddresses("stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl", SortedPageRequest(1))
-      .extract
-      .map(body => {
-        body shouldBe List(Address("addr_test1qz2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzer3jcu5d8ps7zex2k2xt3uqxgjqnnj83ws8lhrn648jjxtwq2ytjqp"))
-        succeed
-      })
-  }
-
-  "getAccountAssociatedAssets" should "return sequence of Asset" in genericTestContext[TestContext] { ctx =>
-    ctx.api
-      .getAccountAssociatedAssets("stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl", SortedPageRequest(1))
-      .extract
-      .map(body => {
-        body shouldBe List(Asset("b01fb3b8c3dd6b3705a5dc8bcd5a70759f70ad5d97a72005caeac3c652657675746f31333237", "1"))
-        succeed
-      })
-  }
-
   trait TestContext {
-    val api: AccountsApi[Future, Any] = new AccountsApiImpl[Future, Any] with TestnetApiClient
+    val api: AccountsApi[Future, Any]
+    val env: String
+    val stakeAddress: String
   }
 
-  implicit val testContext: TestContext = new TestContext {}
+  val testnetTestContext: TestContext = new TestContext {
+    val api: AccountsApi[Future, Any] = new AccountsApiImpl[Future, Any] with TestnetApiClient
+    val env: String = TestnetEnv
+    val stakeAddress = "stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl"
+  }
+
+  val mainnetTestContext: TestContext = new TestContext {
+    val api: AccountsApi[Future, Any] = new AccountsApiImpl[Future, Any] with MainnetApiClient
+    val env: String = MainnetEnv
+    val stakeAddress = "stake1u9j5p3k4sxd4rdfvhddukf2quy9vgf3gnyq98q0t3md3z8cpmu50j"
+  }
+
+  Seq(testnetTestContext, mainnetTestContext).foreach { ctx =>
+    implicit val testCtx: TestContext = ctx
+
+    s"getSpecificCardanoAddress [${ctx.env}]" should "return AccountAddress" in genericTestContext[TestContext] { ctx =>
+      ctx.api
+        .getSpecificCardanoAddress(ctx.stakeAddress)
+        .extract
+        .map(body => {
+          body should matchPattern { case AccountAddress(ctx.stakeAddress, false, 0, _, "0", "0", "0", "0", "0", null) => }
+          succeed
+        })
+    }
+
+    s"getSpecificCardanoAddress with invalid address [${ctx.env}]" should "return error" in genericTestContext[TestContext] { ctx =>
+      ctx.api
+        .getSpecificCardanoAddress("1")
+        .extract
+        .map(_ => fail())
+        .recoverWith {
+          case ApiException(error) =>
+            error shouldBe ApiError(400, "Bad Request", "Invalid or malformed stake address format.")
+            succeed
+        }
+    }
+
+    s"getAccountRewardHistory [${ctx.env}]" should "return sequence of RewardHistory" in genericTestContext[TestContext] { ctx =>
+      ctx.api
+        .getAccountRewardHistory(ctx.stakeAddress, SortedPageRequest(1))
+        .extract
+        .map(body => {
+          body shouldBe List()
+          succeed
+        })
+    }
+
+    s"getAccountHistory [${ctx.env}]" should "return sequence of RewardHistory" in genericTestContext[TestContext] { ctx =>
+      ctx.api
+        .getAccountHistory(ctx.stakeAddress, SortedPageRequest(1))
+        .extract
+        .map(body => {
+          body shouldBe List()
+          succeed
+        })
+    }
+
+    s"getAccountDelegationHistory [${ctx.env}]" should "return sequence of DelegationHistory" in genericTestContext[TestContext] { ctx =>
+      ctx.api
+        .getAccountDelegationHistory(ctx.stakeAddress, SortedPageRequest(1))
+        .extract
+        .map(body => {
+          body shouldBe List()
+          succeed
+        })
+    }
+
+    s"getAccountRegistrationHistory [${ctx.env}]" should "return sequence of RegistrationHistory" in genericTestContext[TestContext] { ctx =>
+      ctx.api
+        .getAccountRegistrationHistory(ctx.stakeAddress, SortedPageRequest(1))
+        .extract
+        .map(body => {
+          body shouldBe List()
+          succeed
+        })
+    }
+
+    s"getAccountWithdrawalHistory [${ctx.env}]" should "return sequence of WithdrawalHistory" in genericTestContext[TestContext] { ctx =>
+      ctx.api
+        .getAccountWithdrawalHistory(ctx.stakeAddress, SortedPageRequest(1))
+        .extract
+        .map(body => {
+          body shouldBe List()
+          succeed
+        })
+    }
+
+    s"getAccountMirHistory [${ctx.env}]" should "return sequence of MirHistory" in genericTestContext[TestContext] { ctx =>
+      ctx.api
+        .getAccountMirHistory(ctx.stakeAddress, SortedPageRequest(1))
+        .extract
+        .map(body => {
+          body shouldBe List()
+          succeed
+        })
+    }
+
+    s"getAccountAssociatedAddresses [${ctx.env}]" should "return sequence of Address" in genericTestContext[TestContext] { ctx =>
+      ctx.api
+        .getAccountAssociatedAddresses(ctx.stakeAddress, SortedPageRequest(1))
+        .extract
+        .map(body => {
+          body should matchPattern { case List(Address(_)) => }
+          succeed
+        })
+    }
+
+    s"getAccountAssociatedAssets [${ctx.env}]" should "return sequence of Asset" in genericTestContext[TestContext] { ctx =>
+      ctx.api
+        .getAccountAssociatedAssets(ctx.stakeAddress, SortedPageRequest(1))
+        .extract
+        .map(body => {
+          body should matchPattern { case List(Asset(_, _)) => }
+          succeed
+        })
+    }
+  }
 }

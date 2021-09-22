@@ -14,6 +14,8 @@ trait TestContextSupport {
   implicit val serialization: org.json4s.Serialization = org.json4s.jackson.Serialization
   implicit val sdkConfig: Config = Config(5, 500, 5000)
   val backend: SttpBackend[Future, Any] = AsyncHttpClientFutureBackend()
+  val TestnetEnv = "Testnet"
+  val MainnetEnv = "Mainnet"
 
   def genericTestContext[A](test: A => Future[Assertion])(implicit context: A): Future[Assertion] = test(context)
 
