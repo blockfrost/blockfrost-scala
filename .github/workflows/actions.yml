@@ -4,8 +4,9 @@ jobs:
   sdk-integration-tests:
     runs-on: ubuntu-latest
     env:
-      BLOCKFROST_API_KEY: 'Ne3uGRoN1t8t0ApCIAf6XEFnb43ljKOE'
-      BLOCKFROST_IPFS_API_KEY: 'CZT5fQbOfOyaCKDaUU9dfKY8Kip4yt1J'
+      BF_TESTNET_PROJECT_ID: ${{secrets.BF_TESTNET_PROJECT_ID}}
+      BF_MAINNET_PROJECT_ID: ${{secrets.BF_MAINNET_PROJECT_ID}}
+      BF_IPFS_PROJECT_ID: ${{secrets.BF_IPFS_PROJECT_ID}}
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11

@@ -9,20 +9,32 @@ import org.scalatest.matchers.should.Matchers
 import scala.concurrent.Future
 
 class NetworkApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
-
-  "getProtocolParameters" should "return EpochProtocolParameters" in genericTestContext[TestContext] { ctx =>
-    ctx.api
-      .getNetworkInformation
-      .extract
-      .map(body => {
-        body should matchPattern { case NetworkInfo(Supply("45000000000000000", _, _), Stake(_, _)) => }
-        succeed
-      })
-  }
-
   trait TestContext {
-    val api: NetworkApi[Future, Any] = new NetworkApiImpl[Future, Any] with TestnetApiClient
+    val api: NetworkApi[Future, Any]
+    val env: String
   }
 
-  implicit val testContext: TestContext = new TestContext {}
+  val testnetTestContext: TestContext = new TestContext {
+    val api: NetworkApi[Future, Any] = new NetworkApiImpl[Future, Any] with TestnetApiClient
+    val env: String = TestnetEnv
+  }
+
+  val mainnetTestContext: TestContext = new TestContext {
+    val api: NetworkApi[Future, Any] = new NetworkApiImpl[Future, Any] with MainnetApiClient
+    val env: String = MainnetEnv
+  }
+
+  Seq(testnetTestContext, mainnetTestContext).foreach { ctx =>
+    implicit val testCtx: TestContext = ctx
+
+    s"getProtocolParameters [${ctx.env}]" should "return EpochProtocolParameters" in genericTestContext[TestContext] { ctx =>
+      ctx.api
+        .getNetworkInformation
+        .extract
+        .map(body => {
+          body should matchPattern { case NetworkInfo(Supply("45000000000000000", _, _), Stake(_, _)) => }
+          succeed
+        })
+    }
+  }
 }
