@@ -30,6 +30,8 @@ trait TransactionsApi[F[_], P] extends SttpSupport {
 
   def getTransactionMetadataCbor(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[TransactionMetadataCbor]]]
 
+  def getTransactionRedeemers(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[TransactionRedeemer]]]
+
   def submitTransaction(serializedTransaction: Array[Byte])(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[String]]
 }
 
@@ -65,6 +67,9 @@ trait TransactionsApiImpl[F[_], P] extends TransactionsApi[F, P] {
 
   override def getTransactionMetadataCbor(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[TransactionMetadataCbor]]] =
     get(uri"$host/txs/$hash/metadata/cbor")
+
+  override def getTransactionRedeemers(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[TransactionRedeemer]]] =
+    get(uri"$host/txs/$hash/redeemers")
 
   override def submitTransaction(serializedTransaction: Array[Byte])(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[String]] =
     post(uri"$host/tx/submit", serializedTransaction, "application/cbor")
@@ -127,4 +132,5 @@ object TransactionsApi {
   case class RetirementCertificate(cert_index: Double, pool_id: String, retiring_epoch: Int)
   case class TransactionMetadata(label: String, json_metadata: JValue)
   case class TransactionMetadataCbor(label: String, cbor_metadata: Option[String])
+  case class TransactionRedeemer(tx_index: Int, purpose: String, unit_mem: String, unit_steps: String, fee: String)
 }
