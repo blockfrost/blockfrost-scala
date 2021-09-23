@@ -27,7 +27,7 @@ class NutlinkApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport
   val mainnetTestContext: TestContext = new TestContext {
     val api: NutlinkApi[Future, Any] = new NutlinkApiImpl[Future, Any] with MainnetApiClient
     val env: String = MainnetEnv
-    val address = "" //todo: need valid address for Mainnet
+    val address = "addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t"
     val ticker = "ADABTC"
   }
 
