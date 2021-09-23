@@ -51,7 +51,7 @@ class ScriptApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport 
         })
     }
 
-    s"getSpecificScriptRedeemers [${ctx.env}]" should "return sequence of Redeemer" in genericTestContext[TestContext] { ctx =>
+    s"getSpecificScriptRedeemers [${ctx.env}]" should "return sequence of ScriptRedeemer" in genericTestContext[TestContext] { ctx =>
       ctx.api
         .getSpecificScriptRedeemers(ctx.scriptHash, SortedPageRequest(1))
         .extract
