@@ -45,6 +45,6 @@ object AddressesApi {
   case class Transaction(tx_hash: String, tx_index: Int, block_height: Int)
   case class Utxo(tx_hash: String, output_index: Int, amount: Seq[Amount], block: String, data_hash: Option[String])
   case class AddressDetail(address: String, received_sum: Seq[Amount], sent_sum: Seq[Amount], tx_count: Int)
-  case class Address(address: String, amount: Seq[Amount], stake_address: Option[String], `type`: String)
+  case class Address(address: String, amount: Seq[Amount], stake_address: Option[String], `type`: String, script: Boolean)
   case class Amount(unit: String, quantity: String)
 }

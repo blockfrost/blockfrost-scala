@@ -40,6 +40,7 @@ class AddressesApiSpec extends AsyncFlatSpec with Matchers with TestContextSuppo
           body.stake_address.isDefined shouldBe true
           body.`type` shouldBe "shelley"
           body.amount.nonEmpty shouldBe true
+          body.script shouldBe false
           succeed
         })
     }
