@@ -27,12 +27,12 @@ class NetworkApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport
   Seq(testnetTestContext, mainnetTestContext).foreach { ctx =>
     implicit val testCtx: TestContext = ctx
 
-    s"getProtocolParameters [${ctx.env}]" should "return EpochProtocolParameters" in genericTestContext[TestContext] { ctx =>
+    s"getProtocolParameters [${ctx.env}]" should "return NetworkInfo" in genericTestContext[TestContext] { ctx =>
       ctx.api
         .getNetworkInformation
         .extract
         .map(body => {
-          body should matchPattern { case NetworkInfo(Supply("45000000000000000", _, _), Stake(_, _)) => }
+          body should matchPattern { case NetworkInfo(Supply("45000000000000000", _, _, _), Stake(_, _)) => }
           succeed
         })
     }
