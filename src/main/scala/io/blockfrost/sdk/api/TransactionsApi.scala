@@ -95,10 +95,11 @@ object TransactionsApi {
                          stake_cert_count: Int,
                          pool_update_count: Int,
                          pool_retire_count: Int,
-                         asset_mint_or_burn_count: Int)
+                         asset_mint_or_burn_count: Int,
+                         redeemer_count: Int)
   case class Amount(unit: String, quantity: String)
-  case class Inputs(address: String, amount: List[Amount], tx_hash: String, output_index: Double)
-  case class Outputs(address: String, amount: List[Amount])
+  case class Inputs(address: String, amount: List[Amount], tx_hash: String, output_index: Double, data_hash: Option[String], collateral: Boolean)
+  case class Outputs(address: String, amount: List[Amount], data_hash: Option[String])
   case class TransactionUtxos(hash: String, inputs: List[Inputs], outputs: List[Outputs])
   case class AddressCertificate(cert_index: Double, address: String, registration: Boolean)
   case class DelegationCertificate(cert_index: Double, address: String, pool_id: String, active_epoch: Int)
