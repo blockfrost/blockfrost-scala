@@ -3,6 +3,10 @@ on: [ push ]
 jobs:
   sdk-integration-tests:
     runs-on: ubuntu-latest
+    env:
+      BF_TESTNET_PROJECT_ID: ${{secrets.BF_TESTNET_PROJECT_ID}}
+      BF_MAINNET_PROJECT_ID: ${{secrets.BF_MAINNET_PROJECT_ID}}
+      BF_IPFS_PROJECT_ID: ${{secrets.BF_IPFS_PROJECT_ID}}
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
