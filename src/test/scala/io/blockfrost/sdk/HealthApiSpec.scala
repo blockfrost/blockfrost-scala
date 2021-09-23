@@ -2,7 +2,7 @@ package io.blockfrost.sdk
 
 import io.blockfrost.sdk.api.HealthApi.HealthStatus
 import io.blockfrost.sdk.api.{HealthApi, HealthApiImpl}
-import io.blockfrost.sdk.effect.FutureResponseConverter._
+import io.blockfrost.sdk.util.FutureResponseConverter._
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 

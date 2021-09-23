@@ -2,7 +2,7 @@ package io.blockfrost.sdk
 
 import io.blockfrost.sdk.api.NetworkApi.{NetworkInfo, Stake, Supply}
 import io.blockfrost.sdk.api.{NetworkApi, NetworkApiImpl}
-import io.blockfrost.sdk.effect.FutureResponseConverter.FutureResponseOps
+import io.blockfrost.sdk.util.FutureResponseConverter.FutureResponseOps
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 

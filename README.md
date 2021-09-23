@@ -70,13 +70,13 @@ libraryDependencies += "com.softwaremill.sttp.client3" %% "async-http-client-bac
   - NutlinkApi
 
 #### Example application with blockfrost-sdk and Future sttp backend
-  
+
 ```scala
 import io.blockfrost.sdk.BlockfrostClient
 import io.blockfrost.sdk.api.{AssetsApi, BlockApi, IpfsApi}
 import io.blockfrost.sdk.common._
-import io.blockfrost.sdk.effect.FuturePaginationSupport
-import io.blockfrost.sdk.effect.FutureResponseConverter.FutureResponseOps
+import io.blockfrost.sdk.util.FuturePaginationSupport
+import io.blockfrost.sdk.util.FutureResponseConverter.FutureResponseOps
 import org.json4s.jackson.Serialization
 import org.json4s.{DefaultFormats, Formats}
 import sttp.client3.SttpBackend

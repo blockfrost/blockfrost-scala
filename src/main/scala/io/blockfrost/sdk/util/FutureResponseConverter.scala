@@ -1,4 +1,4 @@
-package io.blockfrost.sdk.effect
+package io.blockfrost.sdk.util
 
 import org.json4s.jackson.Serialization
 import org.json4s.{Formats, Serialization}
