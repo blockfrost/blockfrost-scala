@@ -39,7 +39,7 @@ class TransactionApiSpec extends AsyncFlatSpec with Matchers with TestContextSup
         .getSpecificTransaction(ctx.transactionHash)
         .extract
         .map(body => {
-          body should matchPattern { case Transaction(ctx.transactionHash, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _) => }
+          body should matchPattern { case Transaction(ctx.transactionHash, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _) => }
           succeed
         })
     }

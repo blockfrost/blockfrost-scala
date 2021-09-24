@@ -41,7 +41,7 @@ class MetricsApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport
         .getEndpointUsageMetrics
         .extract
         .map(body => {
-          body.foreach(m => (m.time >= 0 && m.calls >= 0 && s"${m.endpoint}".nonEmpty) shouldBe true)
+          body.foreach(m => (m.time >= 0 && m.calls >= 0 && m != null) shouldBe true)
           succeed
         })
     }
