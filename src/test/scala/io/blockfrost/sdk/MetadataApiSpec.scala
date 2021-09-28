@@ -4,7 +4,7 @@ import io.blockfrost.sdk.TestContextSupport.RichString
 import io.blockfrost.sdk.api.MetadataApi.{MetadataContentCbor, MetadataContentJson, MetadataLabel}
 import io.blockfrost.sdk.api.{MetadataApi, MetadataApiImpl}
 import io.blockfrost.sdk.common.SortedPageRequest
-import io.blockfrost.sdk.effect.FutureResponseConverter.FutureResponseOps
+import io.blockfrost.sdk.util.FutureResponseConverter.FutureResponseOps
 import org.json4s.JsonAST.JValue
 import org.json4s.{JObject, JString}
 import org.scalatest.flatspec.AsyncFlatSpec

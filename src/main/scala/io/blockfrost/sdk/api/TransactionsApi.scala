@@ -30,6 +30,8 @@ trait TransactionsApi[F[_], P] extends SttpSupport {
 
   def getTransactionMetadataCbor(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[TransactionMetadataCbor]]]
 
+  def getTransactionRedeemers(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[TransactionRedeemer]]]
+
   def submitTransaction(serializedTransaction: Array[Byte])(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[String]]
 }
 
@@ -66,6 +68,9 @@ trait TransactionsApiImpl[F[_], P] extends TransactionsApi[F, P] {
   override def getTransactionMetadataCbor(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[TransactionMetadataCbor]]] =
     get(uri"$host/txs/$hash/metadata/cbor")
 
+  override def getTransactionRedeemers(hash: String)(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[Seq[TransactionRedeemer]]] =
+    get(uri"$host/txs/$hash/redeemers")
+
   override def submitTransaction(serializedTransaction: Array[Byte])(implicit formats: Formats, serialization: Serialization, config: Config): F[ApiResponse[String]] =
     post(uri"$host/tx/submit", serializedTransaction, "application/cbor")
 }
@@ -90,10 +95,11 @@ object TransactionsApi {
                          stake_cert_count: Int,
                          pool_update_count: Int,
                          pool_retire_count: Int,
-                         asset_mint_or_burn_count: Int)
+                         asset_mint_or_burn_count: Int,
+                         redeemer_count: Int)
   case class Amount(unit: String, quantity: String)
-  case class Inputs(address: String, amount: List[Amount], tx_hash: String, output_index: Double)
-  case class Outputs(address: String, amount: List[Amount])
+  case class Inputs(address: String, amount: List[Amount], tx_hash: String, output_index: Double, data_hash: Option[String], collateral: Boolean)
+  case class Outputs(address: String, amount: List[Amount], data_hash: Option[String])
   case class TransactionUtxos(hash: String, inputs: List[Inputs], outputs: List[Outputs])
   case class AddressCertificate(cert_index: Double, address: String, registration: Boolean)
   case class DelegationCertificate(cert_index: Double, address: String, pool_id: String, active_epoch: Int)
@@ -127,4 +133,5 @@ object TransactionsApi {
   case class RetirementCertificate(cert_index: Double, pool_id: String, retiring_epoch: Int)
   case class TransactionMetadata(label: String, json_metadata: JValue)
   case class TransactionMetadataCbor(label: String, cbor_metadata: Option[String])
+  case class TransactionRedeemer(tx_index: Int, purpose: String, unit_mem: String, unit_steps: String, fee: String)
 }

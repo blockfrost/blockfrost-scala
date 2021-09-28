@@ -3,7 +3,7 @@ package io.blockfrost.sdk
 import io.blockfrost.sdk.api.IpfsApi.{IpfsObject, PinnedObject}
 import io.blockfrost.sdk.api.{IpfsApi, IpfsApiImpl}
 import io.blockfrost.sdk.common.SortedPageRequest
-import io.blockfrost.sdk.effect.FutureResponseConverter.FutureResponseOps
+import io.blockfrost.sdk.util.FutureResponseConverter.FutureResponseOps
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -31,7 +31,7 @@ class IpfsApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport {
       ipfsFileData <- ctx.api.getObject(ipfsObject.ipfs_hash)
       _ <- ctx.api.removePinnedObject(ipfsObject.ipfs_hash).extract
     } yield {
-      ipfsFileData.body.right.get.nonEmpty shouldBe true
+      ipfsFileData.body.map(_.nonEmpty) shouldBe Right(true)
       succeed
     }
   }

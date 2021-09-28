@@ -1,7 +1,7 @@
 package io.blockfrost.sdk
 
 import io.blockfrost.sdk.api.{MetricsApi, MetricsApiImpl}
-import io.blockfrost.sdk.effect.FutureResponseConverter.FutureResponseOps
+import io.blockfrost.sdk.util.FutureResponseConverter.FutureResponseOps
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -41,7 +41,7 @@ class MetricsApiSpec extends AsyncFlatSpec with Matchers with TestContextSupport
         .getEndpointUsageMetrics
         .extract
         .map(body => {
-          body.foreach(m => (m.time > 1 && m.calls >= 0 && s"${m.endpoint}".nonEmpty) shouldBe true)
+          body.foreach(m => (m.time >= 0 && m.calls >= 0 && m != null) shouldBe true)
           succeed
         })
     }

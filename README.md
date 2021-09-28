@@ -5,7 +5,7 @@
 <br/>
 
 <p align="center">A Scala SDK for <a href="https://blockfrost.io">Blockfrost.io</a> API.</p>
-<p align="center">Compatible with Blockfrost.io OpenAPI version 0.1.25</p>
+<p align="center">Compatible with Blockfrost.io OpenAPI version 0.1.27</p>
 <p align="center">
   <a href="#getting-started">Getting started</a> •
   <a href="#installation">Installation</a> •
@@ -70,13 +70,13 @@ libraryDependencies += "com.softwaremill.sttp.client3" %% "async-http-client-bac
   - NutlinkApi
 
 #### Example application with blockfrost-sdk and Future sttp backend
-  
+
 ```scala
 import io.blockfrost.sdk.BlockfrostClient
 import io.blockfrost.sdk.api.{AssetsApi, BlockApi, IpfsApi}
 import io.blockfrost.sdk.common._
-import io.blockfrost.sdk.effect.FuturePaginationSupport
-import io.blockfrost.sdk.effect.FutureResponseConverter.FutureResponseOps
+import io.blockfrost.sdk.util.FuturePaginationSupport
+import io.blockfrost.sdk.util.FutureResponseConverter.FutureResponseOps
 import org.json4s.jackson.Serialization
 import org.json4s.{DefaultFormats, Formats}
 import sttp.client3.SttpBackend

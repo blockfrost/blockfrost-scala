@@ -12,7 +12,7 @@ import scala.language.implicitConversions
 trait TestContextSupport {
   implicit val formats: Formats = org.json4s.DefaultFormats
   implicit val serialization: org.json4s.Serialization = org.json4s.jackson.Serialization
-  implicit val sdkConfig: Config = Config(5, 500, 10000)
+  implicit val sdkConfig: Config = Config(5, 500, 30000)
   val backend: SttpBackend[Future, Any] = AsyncHttpClientFutureBackend()
   val TestnetEnv = "Testnet"
   val MainnetEnv = "Mainnet"

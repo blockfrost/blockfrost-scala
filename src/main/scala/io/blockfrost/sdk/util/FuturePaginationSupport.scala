@@ -1,4 +1,4 @@
-package io.blockfrost.sdk.effect
+package io.blockfrost.sdk.util
 
 import com.typesafe.scalalogging.LazyLogging
 import io.blockfrost.sdk.common._
