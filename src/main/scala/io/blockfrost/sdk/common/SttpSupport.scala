@@ -11,6 +11,7 @@ import sttp.model.{MediaType, Uri}
 import scala.concurrent.duration.DurationInt
 
 trait SttpSupport {
+  private def sdkVersion = "0.1.0"
 
   def get[F[_], P, R: Manifest](uri: Uri, pageRequest: Option[PageRequest] = None)
                                (implicit key: ApiKey, f: Formats, s: Serialization, b: SttpBackend[F, P], config: Config): F[ApiResponse[R]] = {
@@ -34,12 +35,14 @@ trait SttpSupport {
 
   def baseGet(uri: Uri)(implicit key: ApiKey, config: Config): RequestT[Identity, Either[String, String], Any] = {
     basicRequest.get(uri)
+      .header("User-Agent", s"blockfrost-scala-$sdkVersion")
       .header("project_id", key)
       .readTimeout(config.readTimeoutMillis.millis)
   }
 
   def basePost(uri: Uri)(implicit key: ApiKey, config: Config): RequestT[Identity, Either[String, String], Any] = {
     basicRequest.post(uri)
+      .header("User-Agent", s"blockfrost-scala-$sdkVersion")
       .header("project_id", key)
       .readTimeout(config.readTimeoutMillis.millis)
   }
