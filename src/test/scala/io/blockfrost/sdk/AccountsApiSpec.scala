@@ -128,8 +128,6 @@ class AccountsApiSpec extends AsyncFlatSpec with Matchers with TestContextSuppor
         .getAccountAssociatedAssets(ctx.stakeAddress, SortedPageRequest(1))
         .extract
         .map(_ => {
-        .map(body => {
-          body should matchPattern { case List() => }
           succeed
         })
     }
