@@ -3,7 +3,7 @@ package io.blockfrost.sdk
 import io.blockfrost.sdk.api.AccountsApi.{AccountAddress, Address, Asset}
 import io.blockfrost.sdk.api.{AccountsApi, AccountsApiImpl}
 import io.blockfrost.sdk.common.SortedPageRequest
-import io.blockfrost.sdk.effect.FutureResponseConverter.{ApiError, ApiException, FutureResponseOps}
+import io.blockfrost.sdk.util.FutureResponseConverter.{ApiError, ApiException, FutureResponseOps}
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -128,6 +128,8 @@ class AccountsApiSpec extends AsyncFlatSpec with Matchers with TestContextSuppor
         .getAccountAssociatedAssets(ctx.stakeAddress, SortedPageRequest(1))
         .extract
         .map(_ => {
+        .map(body => {
+          body should matchPattern { case List() => }
           succeed
         })
     }

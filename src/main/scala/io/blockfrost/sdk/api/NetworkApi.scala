@@ -22,5 +22,5 @@ trait NetworkApiImpl[F[_], P] extends NetworkApi[F, P] {
 object NetworkApi {
   case class NetworkInfo(supply: Supply, stake: Stake)
   case class Stake(live: String, active: String)
-  case class Supply(max: String, total: String, circulating: String)
+  case class Supply(max: String, total: String, circulating: String, locked: String)
 }

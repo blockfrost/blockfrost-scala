@@ -3,7 +3,7 @@ package io.blockfrost.sdk
 import io.blockfrost.sdk.api.AddressesApi._
 import io.blockfrost.sdk.api.{AddressesApi, AddressesApiImpl}
 import io.blockfrost.sdk.common.SortedPageRequest
-import io.blockfrost.sdk.effect.FutureResponseConverter.FutureResponseOps
+import io.blockfrost.sdk.util.FutureResponseConverter.FutureResponseOps
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -40,6 +40,7 @@ class AddressesApiSpec extends AsyncFlatSpec with Matchers with TestContextSuppo
           body.stake_address.isDefined shouldBe true
           body.`type` shouldBe "shelley"
           body.amount.nonEmpty shouldBe true
+          body.script shouldBe false
           succeed
         })
     }

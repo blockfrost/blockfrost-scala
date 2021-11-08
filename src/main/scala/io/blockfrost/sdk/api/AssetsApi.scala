@@ -3,6 +3,7 @@ package io.blockfrost.sdk.api
 import io.blockfrost.sdk.ApiClient
 import io.blockfrost.sdk.api.AssetsApi._
 import io.blockfrost.sdk.common.{Config, SortedPageRequest, SttpSupport}
+import org.json4s.JsonAST.JValue
 import org.json4s.{Formats, Serialization}
 import sttp.client3.UriContext
 
@@ -47,7 +48,6 @@ trait AssetsApiImpl[F[_], P] extends AssetsApi[F, P] {
 object AssetsApi {
   case class AssetShort(asset: String, quantity: String)
   case class Metadata(name: String, description: String, ticker: Option[String], url: Option[String], logo: Option[String], decimals: Option[Int])
-  case class OnchainMetadata(name: String, image: String)
   case class Asset(asset: String,
                    policy_id: String,
                    asset_name: Option[String],
@@ -55,7 +55,7 @@ object AssetsApi {
                    quantity: String,
                    initial_mint_tx_hash: String,
                    mint_or_burn_count: Int,
-                   onchain_metadata: Option[OnchainMetadata],
+                   onchain_metadata: Option[Map[String, JValue]],
                    metadata: Option[Metadata])
   case class AssetHistory(tx_hash: String, amount: String, action: String)
   case class AssetTransaction(tx_hash: String, tx_index: Int, block_height: Int)
