@@ -34,7 +34,7 @@ $> sbt publishLocal
 Add blockfrost-scala dependency to your build.sbt
 
 ```
-libraryDependencies += "io.blockfrost" %% "blockfrost-scala" % "0.1.0"
+libraryDependencies += "io.blockfrost" %% "blockfrost-scala" % "0.1.1"
 ```
 
 This library requires one of sttp backend in your classpath. Full list of supported backends: [Supported backends](https://sttp.softwaremill.com/en/latest/backends/summary.html).

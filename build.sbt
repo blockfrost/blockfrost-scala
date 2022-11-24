@@ -1,7 +1,7 @@
 scalaVersion := "2.13.6"
 organization := "io.blockfrost"
 name := "blockfrost-scala"
-version := "0.1.0"
+version := "0.1.1"
 
 val json4sVersion = "4.0.3"
 val sttpVersion = "3.3.13"

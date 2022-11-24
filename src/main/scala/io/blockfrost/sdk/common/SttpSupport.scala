@@ -11,7 +11,7 @@ import sttp.model.{MediaType, Uri}
 import scala.concurrent.duration.DurationInt
 
 trait SttpSupport {
-  private def sdkVersion = "0.1.0"
+  private def sdkVersion = "0.1.1"
 
   def get[F[_], P, R: Manifest](uri: Uri, pageRequest: Option[PageRequest] = None)
                                (implicit key: ApiKey, f: Formats, s: Serialization, b: SttpBackend[F, P], config: Config): F[ApiResponse[R]] = {
